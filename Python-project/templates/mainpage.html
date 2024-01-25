@@ -34,13 +34,31 @@
     {% if method == 'post' and not_found == 'True' %}
         <h1 style="text-align: center; margin: 10px; color: darkred">Not Found<i class="fa-solid fa-heart-crack"></i></h1>
     {% elif method == 'post' and not_found == 'False' %}
-    <h2 style="text-align: center">
-            <i class="fa-solid fa-location-dot"></i>{{city}}, {{country}}
-    </h2>
-    <h4 style="text-align: center">
-            <i class="fa-solid fa-temperature-high"></i>: {{current_temperature}}°C<br/>
-            <i class="fa-solid fa-droplet"></i>: {{current_humidity}}%
-    </h4>
+
+    <div class="row justify-content-center">
+    <div class="card text-center" style="width: 17rem; margin: 5px" >
+        <div class="card-body">
+                    <h3 style="text-align: center">
+                <i class="fa-solid fa-location-dot"></i>{{city}}, {{country}}
+                </h3>
+                <i class="fa-solid fa-temperature-high"></i>: {{current_temperature}}°C<br/>
+                <i class="fa-solid fa-droplet"></i>: {{current_humidity}}%<br/>
+                {% if 0 <= current_weather_code <= 1 %}
+                        <h1>🌞</h1>
+                        {% elif 2 <= current_weather_code <= 3 %}
+                        <h1>🌥️ </h1>
+                        {% elif 45 <= current_weather_code <= 48 %}
+                        <h1>🌫️ </h1>
+                        {% elif 51 <= current_weather_code <= 67 or 80 <= current_weather_code <= 82 %}
+                        <h1>🌧️ </h1>
+                        {% elif 71 <= current_weather_code <= 77 or 85 <= current_weather_code <= 86 %}
+                        <h1>🌨️ </h1>
+                        {% elif 95 <= current_weather_code <= 99 %}
+                        <h1>⛈️ </h1>
+                {% endif %}
+        </div>
+    </div>
+    </div>
      <div class="d-flex flex-wrap" style="margin: 60px;">
             {% for i in range(7) %}
             <div class="card text-center" style="width: 15rem; margin: 5px" >

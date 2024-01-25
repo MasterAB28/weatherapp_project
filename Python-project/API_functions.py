@@ -43,7 +43,7 @@ def get_weather(city):
     response = requests.get("https://api.open-meteo.com/v1/forecast?latitude=" + str(data["latitude"]) +
                             "&longitude=" + str(data["longitude"])
                             + "&current=temperature_2m,relative_humidity_2m,"
-                            + "is_day&hourly=relative_humidity_2m&daily="
+                            + "is_day,weather_code&hourly=relative_humidity_2m&daily="
                             + "weather_code,temperature_2m_max,temperature_2m_min,"
                             + "relative_humidity_2m_mean&timezone=Africa%2FCairo").json()
     # return the dictionary
@@ -57,6 +57,7 @@ def get_weather(city):
             "humidity": response["daily"]["relative_humidity_2m_mean"],
             "weather_code": response["daily"]["weather_code"],
             "is_day": response["current"]["is_day"],
+            "current_weather_code": response["current"]["weather_code"],
             "not_found": "False"}
 
 
