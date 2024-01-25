@@ -1,0 +1,38 @@
+body {
+  background-image: url('night.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  color: white;
+}
+p {
+    color: white;
+  }
+h1 {
+    color: white;
+}
+h2 {
+    color: white;
+}
+h3 {
+    color: white;
+}
+h4 {
+    color: white;
+}
+h5 {
+    color: white;
+}
+h6 {
+    color: white;
+}
+.card-body{
+    background-image: url('night.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    color: white;
+    border: 1px solid black;
+    border-radius: 15px
+}
+

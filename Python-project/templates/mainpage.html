@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% if is_day == 0 %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='night.css') }}">
+    {% else %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='day.css') }}">
+    {% endif %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/42e1671e64.js" crossorigin="anonymous"></script>
+    <title>Weather</title>
+</head>
+<body>
+    <h1 style="margin-top: 50px;margin-bottom: 80px; text-align: center">Avihad Weather</h1>
+    {% if method == 'get' %}
+        <form class="form-group" action="/" method="post" style="text-align: center;margin-top: 200px; margin-bottom: 80px">
+             <label style="width: auto; line-height: 60px">
+                 <input class="form-control" type="text" placeholder="Search city" name="city">
+            </label>
+             <button type="submit" class="btn btn-primary">Submit</button>
+         </form>
+
+    {% elif method == 'post' %}
+         <form class="form-group" action="/" method="post" style="text-align: center;margin-top: 20px; margin-bottom: 80px">
+             <label style="width: auto; line-height: 60px">
+                 <input class="form-control" type="text" placeholder="Search city" name="city">
+             </label>
+             <button type="submit" class="btn btn-primary">Submit</button>
+         </form>
+    {% endif %}
+
+    {% if method == 'post' and not_found == 'True' %}
+        <h1 style="text-align: center; margin: 10px; color: darkred">Not Found<i class="fa-solid fa-heart-crack"></i></h1>
+    {% elif method == 'post' and not_found == 'False' %}
+    <h2 style="text-align: center">
+            <i class="fa-solid fa-location-dot"></i>{{city}}, {{country}}
+    </h2>
+    <h4 style="text-align: center">
+            <i class="fa-solid fa-temperature-high"></i>: {{current_temperature}}°C<br/>
+            <i class="fa-solid fa-droplet"></i>: {{current_humidity}}%
+    </h4>
+     <div class="d-flex flex-wrap" style="margin: 60px;">
+            {% for i in range(7) %}
+            <div class="card text-center" style="width: 15rem; margin: 5px" >
+                <div class="card-body">
+                    <h5 class="card-title">{{days[i]}} {{daily_time[i]}}:</h5>
+                    <p><i class="fa-solid fa-sun"></i>: {{daily_max_temperature[i]}}°C</p>
+                    <p><i class="fa-solid fa-moon"></i>: {{daily_min_temperature[i]}}°C</p>
+                        <p><i class="fa-solid fa-droplet"></i>: {{humidity[i]}}%</p>
+                    {% if 0 <= weather_code[i] <= 1 %}
+                    <h1>🌞</h1>
+                    {% elif 2 <= weather_code[i] <= 3 %}
+                    <h1>🌥️ </h1>
+                    {% elif 45 <= weather_code[i] <= 48 %}
+                    <h1>🌫️ </h1>
+                    {% elif 51 <= weather_code[i] <= 67 or 80 <= weather_code[i] <= 82 %}
+                    <h1>🌧️ </h1>
+                    {% elif 71 <= weather_code[i] <= 77 or 85 <= weather_code[i] <= 86 %}
+                    <h1>🌨️ </h1>
+                    {% elif 95 <= weather_code[i] <= 99 %}
+                    <h1>⛈️ </h1>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+
+    </div>
+    {% endif %}
+
+</body>
+</html>
+                       
