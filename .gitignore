@@ -1,0 +1,12 @@
+*
+!*/
+!.gitignore
+!*.sh
+!*.c
+!*.h
+!*makefile
+!*.myfuncs
+!*.py
+.idea
+!*.html
+!*.css
