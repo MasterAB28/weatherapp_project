@@ -1,11 +1,11 @@
 body {
   background-image: url('sky.jpg');
-    background-repeat: no-repeat;
+  background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
 }
 .card-body{
-  background-image: url('sky.jpg');
+  background-image: url('night.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
