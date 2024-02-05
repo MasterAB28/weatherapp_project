@@ -39,7 +39,7 @@ pipeline {
         always {
             // Cleanup: Remove the Docker image after the tests
             cleanWs()
-            docker.image('python_project').remove()
+            docker.image('python_project').remove(message: 'Removing unused Docker image')
             sh 'docker logout'
         }
     }
