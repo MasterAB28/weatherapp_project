@@ -8,15 +8,14 @@ from selenium import webdriver
 import os
 
 from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 
 
 class TestSelenium(unittest.TestCase):
     def setUp(self):
         options = Options()
         options.add_argument("--headless")
-        self.driver = webdriver.Firefox(options=options,
-                                        service=webdriver.FirefoxService(executable_path='/snap/bin/geckodriver'))
+        self.driver = webdriver.Chrome(options=options)
         self.driver.get("http://172.17.0.1:8000/")
 
     def test_positive(self):
