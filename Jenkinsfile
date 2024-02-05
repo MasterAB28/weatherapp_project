@@ -1,11 +1,11 @@
 pipeline {
-    agent any
+    agent {'agent1'}
 
     stages {
         stage('Build') {
             steps {
                 script {
-                    git branch: 'production', url: 'https://gitlab.aviadapps.com/root/weather_app.git'
+                    git branch: 'master', url: 'https://gitlab.aviadapps.com/root/weather_app.git'
                     docker.Build('python_project')
                 }
             }
