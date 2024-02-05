@@ -39,7 +39,6 @@ pipeline {
         always {
             // Cleanup: Remove the Docker image after the tests
             cleanWs()
-            sh 'docker logout'
-        }
+            }
     }
 }
