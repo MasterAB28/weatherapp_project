@@ -1,4 +1,4 @@
-pipeline {
+pipeline {  
     agent {'agent1'}
 
     stages {
@@ -34,7 +34,7 @@ pipeline {
 //
 //             }
 //         }
-//     }
+     }
     post {
         always {
             // Cleanup: Remove the Docker image after the tests
