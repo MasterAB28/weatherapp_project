@@ -37,7 +37,6 @@ pipeline {
      }
     post {
         always {
-            // Cleanup: Remove the Docker image after the tests
             cleanWs()
             }
     }
