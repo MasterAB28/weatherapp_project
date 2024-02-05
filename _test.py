@@ -2,20 +2,18 @@
 Author: Aviad Barel
 Reviewer: Tomer
 """
-import time
 import unittest
 from selenium import webdriver
-import os
 
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
 
 
 class TestSelenium(unittest.TestCase):
     def setUp(self):
-        options = Options()
-        options.add_argument("--headless")
-        self.driver = webdriver.Chrome(options=options)
+        options = webdriver.ChromeOptions()
+        options.add_argument('--ignore-ssl-errors=yes')
+        options.add_argument('--ignore-certificate-errors')
+        self.driver = webdriver.Remote(command_executor='http://selenium:4444/wd/hub', options=options)
         self.driver.get("http://172.17.0.1:8000/")
 
     def test_positive(self):
@@ -32,7 +30,7 @@ class TestSelenium(unittest.TestCase):
 
     def tearDown(self):
         self.driver.close()
-    
+
 
 if __name__ == '__main__':
     unittest.main()
