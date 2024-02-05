@@ -2,10 +2,14 @@ pipeline {
     agent {node 'agent1'}
 
     stages {
+        stage('checkout') {
+            steps {
+                checkout scm
+            }
+        }
         stage('Build') {
             steps {
                 script {
-                    git branch: 'master', url: 'https://gitlab.aviadapps.com/root/weather_app.git'
                     docker.Build('python_project')
                 }
             }
