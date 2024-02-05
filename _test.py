@@ -13,6 +13,7 @@ from selenium.webdriver.chrome.options import Options
 
 class TestSelenium(unittest.TestCase):
     def setUp(self):
+        os.system("docker run -d -p 4000:4444 --name selenium-hub selenium/standalone-chrome")
         options = Options()
         options.add_argument("--headless")
         self.driver = webdriver.Chrome(options=options)
@@ -32,6 +33,7 @@ class TestSelenium(unittest.TestCase):
 
     def tearDown(self):
         self.driver.close()
+        os.system("docker rm -f selenium-hub")
 
 
 if __name__ == '__main__':
