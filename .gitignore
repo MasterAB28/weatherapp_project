@@ -8,4 +8,4 @@
 !*.jpg
 !Dockerfile
 !Jenkinsfile
-
+!requirements.txt

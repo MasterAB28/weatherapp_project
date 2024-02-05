@@ -13,7 +13,7 @@
     <title>Weather</title>
 </head>
 <body>
-    <h1 style="margin-top: 50px;margin-bottom: 80px; text-align: center">Avihad Weather &t</h1>
+    <h1 style="margin-top: 50px;margin-bottom: 80px; text-align: center">Avihad Weather</h1>
     {% if method == 'get' %}
         <form class="form-group" action="/" method="post" style="text-align: center;margin-top: 200px; margin-bottom: 80px">
              <label style="width: auto; line-height: 60px">
@@ -31,12 +31,11 @@
          </form>
     {% endif %}
 
-    % if method == 'post' and not_found == 'True' %}
+    {% if method == 'post' and not_found == 'True' %}
         <h1 name="not-found" style="text-align: center; margin: 10px; color: darkred">Not Found<i class="fa-solid fa-heart-crack"></i></h1>
     {% elif method == 'post' and not_found == 'False' %}
     <div name="found">
-
-    <div class="row justify-content-center">
+       <div class="row justify-content-center">
     <div class="card text-center" style="width: 17rem; margin: 5px" >
         <div class="card-body">
                     <h3 style="text-align: center">
@@ -60,34 +59,33 @@
         </div>
     </div>
     </div>
-     <div class="d-flex flex-wrap" style="margin: 60px;">
-            {% for i in range(7) %}
-            <div class="card text-center" style="width: 15rem; margin: 5px" >
-                <div class="card-body">
-                    <h5 class="card-title">{{days[i]}} {{daily_time[i]}}:</h5>
-                    <p><i class="fa-solid fa-sun"></i>: {{daily_max_temperature[i]}}°C</p>
-                    <p><i class="fa-solid fa-moon"></i>: {{daily_min_temperature[i]}}°C</p>
-                        <p><i class="fa-solid fa-droplet"></i>: {{humidity[i]}}%</p>
-                    {% if 0 <= weather_code[i] <= 1 %}
-                    <h1>🌞</h1>
-                    {% elif 2 <= weather_code[i] <= 3 %}
-                    <h1>🌥️ </h1>
-                    {% elif 45 <= weather_code[i] <= 48 %}
-                    <h1>🌫️ </h1>
-                    {% elif 51 <= weather_code[i] <= 67 or 80 <= weather_code[i] <= 82 %}
-                    <h1>🌧️ </h1>
-                    {% elif 71 <= weather_code[i] <= 77 or 85 <= weather_code[i] <= 86 %}
-                    <h1>🌨️ </h1>
-                    {% elif 95 <= weather_code[i] <= 99 %}
-                    <h1>⛈️ </h1>
-                    {% endif %}
+         <div class="d-flex flex-wrap" style="margin: 60px;">
+                {% for i in range(7) %}
+                <div class="card text-center" style="width: 15rem; margin: 5px" >
+                    <div class="card-body">
+                        <h5 class="card-title">{{days[i]}} {{daily_time[i]}}:</h5>
+                        <p><i class="fa-solid fa-sun"></i>: {{daily_max_temperature[i]}}°C</p>
+                        <p><i class="fa-solid fa-moon"></i>: {{daily_min_temperature[i]}}°C</p>
+                            <p><i class="fa-solid fa-droplet"></i>: {{humidity[i]}}%</p>
+                        {% if 0 <= weather_code[i] <= 1 %}
+                        <h1>🌞</h1>
+                        {% elif 2 <= weather_code[i] <= 3 %}
+                        <h1>🌥️ </h1>
+                        {% elif 45 <= weather_code[i] <= 48 %}
+                        <h1>🌫️ </h1>
+                        {% elif 51 <= weather_code[i] <= 67 or 80 <= weather_code[i] <= 82 %}
+                        <h1>🌧️ </h1>
+                        {% elif 71 <= weather_code[i] <= 77 or 85 <= weather_code[i] <= 86 %}
+                        <h1>🌨️ </h1>
+                        {% elif 95 <= weather_code[i] <= 99 %}
+                        <h1>⛈️ </h1>
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
-            {% endfor %}
+                {% endfor %}
         </div>
     </div>
     {% endif %}
 
 </body>
 </html>
-                       
