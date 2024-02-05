@@ -10,7 +10,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    docker.Build('python_project')
+                    sh 'docker build . -t python_project'
                 }
             }
         }
