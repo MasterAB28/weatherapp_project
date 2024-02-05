@@ -31,9 +31,10 @@
          </form>
     {% endif %}
 
-    {% if method == 'post' and not_found == 'True' %}
-        <h1 style="text-align: center; margin: 10px; color: darkred">Not Found<i class="fa-solid fa-heart-crack"></i></h1>
+    % if method == 'post' and not_found == 'True' %}
+        <h1 name="not-found" style="text-align: center; margin: 10px; color: darkred">Not Found<i class="fa-solid fa-heart-crack"></i></h1>
     {% elif method == 'post' and not_found == 'False' %}
+    <div name="found">
 
     <div class="row justify-content-center">
     <div class="card text-center" style="width: 17rem; margin: 5px" >
@@ -83,7 +84,7 @@
                 </div>
             </div>
             {% endfor %}
-
+        </div>
     </div>
     {% endif %}
 
