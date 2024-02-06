@@ -13,6 +13,7 @@ class TestSelenium(unittest.TestCase):
         options = webdriver.ChromeOptions()
         options.add_argument('--ignore-ssl-errors=yes')
         options.add_argument('--ignore-certificate-errors')
+        options.add_argument('--timeout=120')
         self.driver = webdriver.Remote(command_executor='http://selenium:4444', options=options)
 
     def test_positive(self):
