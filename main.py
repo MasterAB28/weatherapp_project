@@ -4,7 +4,7 @@ Reviewer: gili
 """
 
 from flask import Flask, render_template, request
-from app.API_functions import get_weather
+from API_functions import get_weather
 
 app = Flask(__name__)
 

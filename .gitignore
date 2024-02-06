@@ -6,6 +6,6 @@
 !*.html
 !*.css
 !*.jpg
-!app/Dockerfile
+!Dockerfile
 !Jenkinsfile
-!app/requirements.txt
+!requirements.txt
