@@ -26,6 +26,7 @@ pipeline {
                 script {
                     // Run tests
                     sh 'docker run -p 8000:8000 -d --name weather_app aviadbarel/weather_app'
+
                     sh 'python3 test.py'
                 }
             }
