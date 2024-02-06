@@ -5,6 +5,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
         SSH_CREDENTIALS_ID = 'Sshdeploy'
         SSH_CREDENTIALS_KEY = credentials("${SSH_CREDENTIALS_ID}")
+        TARGET_HOST = '172.31.40.29'
     }
 
     stages {
@@ -42,9 +43,10 @@ pipeline {
         stage('Deploy') {
             steps {
                 script{
+                sh "ssh-keyscan -H ${TARGET_HOST} >> ~/.ssh/known_hosts"
                 sh "echo ${SSH_CREDENTIALS_KEY}"
-                sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@172.31.40.29 docker image rm -f aviadbarel/weather_app"
-                sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@172.31.40.29 docker-compose up -d --build"
+                sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@${TARGET_HOST} docker image rm -f aviadbarel/weather_app"
+                sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@${TARGET_HOST} docker-compose up -d --build"
                 }
             }
         }
