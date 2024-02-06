@@ -40,8 +40,8 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@172.31.40.29 docker image rm -f aviadbarel/weather_app"
-                sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@172.31.40.29 docker-compose up -d --build"
+                sh "ssh -i ${SSH_CREDENTIALS} ec2-user@172.31.40.29 docker image rm -f aviadbarel/weather_app"
+                sh "ssh -i ${SSH_CREDENTIALS} ec2-user@172.31.40.29 docker-compose up -d --build"
             }
         }
     }
