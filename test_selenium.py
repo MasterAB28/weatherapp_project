@@ -2,6 +2,7 @@
 Author: Aviad Barel
 Reviewer: Tomer
 """
+import time
 import unittest
 from selenium import webdriver
 
@@ -10,6 +11,7 @@ from selenium.webdriver.common.by import By
 
 class TestSelenium(unittest.TestCase):
     driver = None
+
     @classmethod
     def setUpClass(cls):
         options = webdriver.ChromeOptions()
@@ -28,6 +30,7 @@ class TestSelenium(unittest.TestCase):
         driver = self.driver
         driver.find_element(by=By.NAME, value="city").send_keys("Ashdod")
         driver.find_element(by=By.CSS_SELECTOR, value="button").click()
+        time.sleep(5)
         self.assertTrue(driver.find_element(By.NAME, "found").is_enabled())
 
     def test_negative(self):
@@ -35,6 +38,7 @@ class TestSelenium(unittest.TestCase):
         driver = self.driver
         driver.find_element(by=By.NAME, value="city").send_keys("Gaza")
         driver.find_element(by=By.CSS_SELECTOR, value="button").click()
+        time.sleep(5)
         self.assertTrue(driver.find_element(By.NAME, "not-found").is_enabled())
 
 
