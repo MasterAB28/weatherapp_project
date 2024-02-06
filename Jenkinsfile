@@ -30,9 +30,8 @@ pipeline {
         stage ('Push') {
             steps{
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-                        sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
-                    }
+                    sh "docker login -u $DOCKERHUB_CREDENTIALS_USR -p $DDOCKERHUB_CREDENTIALS_PSW"
+
                     sh "docker push aviadbarel/weather_app"
                 }
             }
