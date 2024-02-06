@@ -45,6 +45,7 @@ pipeline {
             steps {
                 script{
                 sh "ssh-keyscan -H ${TARGET_HOST} >> ~/.ssh/known_hosts"
+                sh "echo ${SSH_CREDENTIALS_KEY}"
                 sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@${TARGET_HOST} docker image rm -f aviadbarel/weather_app"
                 sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@${TARGET_HOST} docker-compose up -d --build"
                 }
