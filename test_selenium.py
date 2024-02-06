@@ -14,15 +14,16 @@ class TestSelenium(unittest.TestCase):
         options.add_argument('--ignore-ssl-errors=yes')
         options.add_argument('--ignore-certificate-errors')
         self.driver = webdriver.Remote(command_executor='http://selenium:4444', options=options)
-        self.driver.get("http://172.17.0.1:8000/")
 
     def test_positive(self):
+        self.driver.get("http://172.17.0.1:8000/")
         driver = self.driver
         driver.find_element(by=By.NAME, value="city").send_keys("Ashdod")
         driver.find_element(by=By.CSS_SELECTOR, value="button").click()
         self.assertTrue(driver.find_element(By.NAME, "found").is_enabled())
 
     def test_negative(self):
+        self.driver.get("http://172.17.0.1:8000/")
         driver = self.driver
         driver.find_element(by=By.NAME, value="city").send_keys("Gaza")
         driver.find_element(by=By.CSS_SELECTOR, value="button").click()
