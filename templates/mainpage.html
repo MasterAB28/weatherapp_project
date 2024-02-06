@@ -15,7 +15,7 @@
 <body>
     <h1 style="margin-top: 50px;margin-bottom: 80px; text-align: center">Avihad Weather</h1>
     {% if method == 'get' %}
-        <form class="form-group" action="/" method="post" style="text-align: center;margin-top: 200px; margin-bottom: 80px">
+        <form class="form-group" action="/app/static" method="post" style="text-align: center;margin-top: 200px; margin-bottom: 80px">
              <label style="width: auto; line-height: 60px">
                  <input class="form-control" type="text" placeholder="Search city" name="city">
             </label>
@@ -23,14 +23,15 @@
          </form>
 
     {% elif method == 'post' %}
-         <form class="form-group" action="/" method="post" style="text-align: center;margin-top: 20px; margin-bottom: 80px">
+         <form class="form-group" action="/app/static" method="post" style="text-align: center;margin-top: 20px; margin-bottom: 80px">
              <label style="width: auto; line-height: 60px">
                  <input class="form-control" type="text" placeholder="Search city" name="city">
              </label>
              <button type="submit" class="btn btn-primary">Submit</button>
          </form>
     {% endif %}
-
+    <h1 name="not-found" style="text-align: center; margin: 10px; color: darkred">Not Found<i class="fa-solid fa-heart-crack"></i></h1>
+    <h1 name="found" style="text-align: center; margin: 10px; color: darkred">Found</h1>
     {% if method == 'post' and not_found == 'True' %}
         <h1 name="not-found" style="text-align: center; margin: 10px; color: darkred">Not Found<i class="fa-solid fa-heart-crack"></i></h1>
     {% elif method == 'post' and not_found == 'False' %}

@@ -17,7 +17,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    sh 'docker build . -t aviadbarel/weather_app'
+                    sh 'docker build -f app.Dockerfile . -t aviadbarel/weather_app'
                 }
             }
         }
@@ -26,7 +26,9 @@ pipeline {
                 script {
                     // Run tests
                     sh 'docker run -p 8000:8000 -d --name weather_app aviadbarel/weather_app'
+
                     sh 'python3 test.py'
+                    sh 'python3 test_selenium.py'
                 }
             }
         }
