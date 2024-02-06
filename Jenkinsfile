@@ -1,6 +1,10 @@
 pipeline {
     agent {node 'agent1'}
 
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+    }
+
     stages {
         stage('checkout') {
             steps {
@@ -20,14 +24,16 @@ pipeline {
                     // Run tests
                     sh 'docker run -p 8000:8000 -d --name python_project python_project'
                     sh 'python3 test.py'
-
-                    // Notify Slack based on test results
-//                     if (testExitCode != 0) {
-//                         slackSend(channel: '', color: 'danger', message: "Tests failed!")
-//                         error 'Tests failed!'
-//                     } else {
-//                         slackSend(channel: '', color: 'good', message: "Tests passed!")
-//                     }
+                }
+            }
+        }
+        stage ('Push') {
+            steps{
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                        sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
+                    }
+                    sh "docker push aviadbarel/weather_app:tagname"
                 }
             }
         }
