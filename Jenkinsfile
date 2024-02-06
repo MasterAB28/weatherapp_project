@@ -19,7 +19,7 @@ pipeline {
                 script {
                     // Run tests
                     sh 'docker run -p 8000:8000 -d --name python_project python_project'
-                    sh 'python3 _test.py'
+                    sh 'python3 test.py'
 
                     // Notify Slack based on test results
 //                     if (testExitCode != 0) {
