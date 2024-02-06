@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+        SSH_CREDENTIALS = credentials('ssh_deploy')
     }
 
     stages {
@@ -36,14 +37,13 @@ pipeline {
                 }
             }
         }
-//         stage('Deploy') {
-//             when {
-//                 expression { currentBuild.currentResult == 'SUCCESS' }
-//             }
-//             steps {
-//
-//             }
-//         }
+
+        stage('Deploy') {
+            steps {
+                sh "ssh -i ${SSH_CREDENTIALS_PRIVATE_KEY} ec2-user@172.31.40.29 docker image rm -f aviadbarel/weather_app"
+                sh "ssh -i ${SSH_CREDENTIALS_PRIVATE_KEY} ec2-user@172.31.40.29 docker-compose up -d --build"
+            }
+        }
     }
     post {
 //         success{
