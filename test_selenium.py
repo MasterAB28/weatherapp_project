@@ -22,6 +22,7 @@ class TestSelenium(unittest.TestCase):
         driver.find_element(by=By.NAME, value="city").send_keys("Ashdod")
         driver.find_element(by=By.CSS_SELECTOR, value="button").click()
         self.assertTrue(driver.find_element(By.NAME, "found").is_enabled())
+        driver.quit()
 
     def test_negative(self):
         self.driver.get("http://172.17.0.1:8000/")
@@ -29,6 +30,7 @@ class TestSelenium(unittest.TestCase):
         driver.find_element(by=By.NAME, value="city").send_keys("Gaza")
         driver.find_element(by=By.CSS_SELECTOR, value="button").click()
         self.assertTrue(driver.find_element(By.NAME, "not-found").is_enabled())
+        driver.quit()
 
     def tearDown(self):
         self.driver.close()
