@@ -14,7 +14,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    sh 'docker build . -t python_project'
+                    sh 'docker build . -t aviadbarel/weather_app'
                 }
             }
         }
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 script {
                     // Run tests
-                    sh 'docker run -p 8000:8000 -d --name python_project python_project'
+                    sh 'docker run -p 8000:8000 -d --name weather_app aviadbarel/weather_app'
                     sh 'python3 test.py'
                 }
             }
@@ -33,7 +33,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
                         sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
                     }
-                    sh "docker push aviadbarel/weather_app:tagname"
+                    sh "docker push aviadbarel/weather_app"
                 }
             }
         }
