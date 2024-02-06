@@ -54,7 +54,7 @@ pipeline {
 //         }
         always {
             cleanWs()
-            sh 'docker rm -f python_project'
+            sh 'docker rm -f weather_app'
             }
     }
 }
