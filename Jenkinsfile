@@ -52,12 +52,12 @@ pipeline {
         }
     }
     post {
-//         success{
-//             slackSend(channel: '', color: 'good', message: "Tests passed! build: ${BUILD_NUMBER} commit: ${GIT_COMMIT}")
-//         }
-//         failed{
-//             slackSend(channel: '', color: 'danger', message: "Tests failed! ${BUILD_NUMBER} commit: ${GIT_COMMIT}")
-//         }
+        success{
+            slackSend(channel: 'succeeded-build', color: 'good', message: "Tests passed! build: ${BUILD_NUMBER} commit: ${GIT_COMMIT}")
+        }
+        failed{
+            slackSend(channel: 'devops-alert', color: 'danger', message: "Tests failed! ${BUILD_NUMBER} commit: ${GIT_COMMIT}")
+        }
         always {
             cleanWs()
             sh 'docker rm -f weather_app'
