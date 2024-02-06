@@ -17,8 +17,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-
-                    sh 'docker build . -t aviadbarel/weather_app'
+                    sh 'docker build -f app.Dockerfile . -t aviadbarel/weather_app'
                 }
             }
         }
