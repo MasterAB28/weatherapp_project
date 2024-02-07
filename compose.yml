@@ -1,0 +1,14 @@
+services:
+  backend:
+    image: aviadbarel/weather_app
+    environment:
+      - PORT=8000
+
+
+
+  nginx:
+    image: aviadbarel/nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - backend

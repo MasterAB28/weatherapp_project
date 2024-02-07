@@ -18,6 +18,7 @@ pipeline {
             steps {
                 script {
                     sh 'docker build . -t aviadbarel/weather_app'
+                    sh 'docker build -f nginx/Dockerfile . -t aviadbarel/nginx'
 
                 }
             }
@@ -36,6 +37,7 @@ pipeline {
                 script {
                     sh "docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p ${DOCKERHUB_CREDENTIALS_PSW}"
                     sh "docker push aviadbarel/weather_app"
+                    sh "docker push aviadbarel/nginx"
                 }
             }
         }
@@ -44,8 +46,9 @@ pipeline {
             steps {
                 script{
                     sh "ssh-keyscan -v -H ${TARGET_HOST} >> ~/.ssh/known_hosts"
+                    sh "scp -i ${SSH_CREDENTIALS_KEY} compose.yml ec2-user@${TARGET_HOST}:/home/ec2-user"
                     sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@${TARGET_HOST} docker-compose down"
-                    sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@${TARGET_HOST} docker image rm -f aviadbarel/weather_app"
+                    sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@${TARGET_HOST} docker image rm -f aviadbarel/weather_app aviadbarel/nginx"
                     sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@${TARGET_HOST} docker-compose up -d --build"
                 }
             }

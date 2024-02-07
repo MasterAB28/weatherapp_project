@@ -9,3 +9,5 @@
 !Dockerfile
 !Jenkinsfile
 !app/requirements.txt
+!*.conf
+!compose.yml
