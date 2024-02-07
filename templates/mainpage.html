@@ -30,8 +30,6 @@
              <button type="submit" class="btn btn-primary">Submit</button>
          </form>
     {% endif %}
-    <h1 name="not-found" style="text-align: center; margin: 10px; color: darkred">Not Found<i class="fa-solid fa-heart-crack"></i></h1>
-    <h1 name="found" style="text-align: center; margin: 10px; color: darkred">Found</h1>
     {% if method == 'post' and not_found == 'True' %}
         <h1 name="not-found" style="text-align: center; margin: 10px; color: darkred">Not Found<i class="fa-solid fa-heart-crack"></i></h1>
     {% elif method == 'post' and not_found == 'False' %}
