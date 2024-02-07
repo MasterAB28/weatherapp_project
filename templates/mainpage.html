@@ -15,7 +15,7 @@
 <body>
     <h1 style="margin-top: 50px;margin-bottom: 80px; text-align: center">Avihad Weather</h1>
     {% if method == 'get' %}
-        <form class="form-group" action="/static" method="post" style="text-align: center;margin-top: 200px; margin-bottom: 80px">
+        <form class="form-group" action="/" method="post" style="text-align: center;margin-top: 200px; margin-bottom: 80px">
              <label style="width: auto; line-height: 60px">
                  <input class="form-control" type="text" placeholder="Search city" name="city">
             </label>
@@ -23,7 +23,7 @@
          </form>
 
     {% elif method == 'post' %}
-         <form class="form-group" action="/static" method="post" style="text-align: center;margin-top: 20px; margin-bottom: 80px">
+         <form class="form-group" action="/" method="post" style="text-align: center;margin-top: 20px; margin-bottom: 80px">
              <label style="width: auto; line-height: 60px">
                  <input class="form-control" type="text" placeholder="Search city" name="city">
              </label>
