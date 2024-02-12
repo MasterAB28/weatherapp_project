@@ -17,7 +17,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    sh 'docker build . -t aviadbarel/weather_app --no-cache'
+                    sh 'docker build . -t aviadbarel/weather_app'
                     sh 'docker build -f nginx/Dockerfile . -t aviadbarel/nginx'
 
                 }
