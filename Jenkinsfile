@@ -64,7 +64,7 @@ pipeline {
         }
         always {
             cleanWs()
-            sh 'docker image rm -f weather_app nginx'
+            sh 'docker image rm -f aviadbarel/weather_app aviadbarel/nginx'
             sh 'docker logout'
             }
     }
