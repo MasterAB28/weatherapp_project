@@ -29,10 +29,11 @@ pipeline {
                     // Run tests
                     sh 'docker compose up -d'
                     sh 'python3 tests/test.py'
+                    sh 'docker compose down'
                 }
             }
         }
-        stage ('Push') {
+        stage ('Delivery') {
             steps{
                 script {
                     sh "docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p ${DOCKERHUB_CREDENTIALS_PSW}"
@@ -63,7 +64,7 @@ pipeline {
         }
         always {
             cleanWs()
-            sh 'docker rm -f weather_app'
+            sh 'docker image rm -f weather_app nginx'
             sh 'docker logout'
             }
     }
