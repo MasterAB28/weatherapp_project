@@ -62,6 +62,7 @@ pipeline {
         failure{
             slackSend(channel: 'devops-alert', color: 'danger', message: "Tests failed! ${BUILD_NUMBER} commit: ${GIT_COMMIT}")
         }
+        
         always {
             cleanWs()
             sh 'docker image rm -f aviadbarel/weather_app aviadbarel/nginx'
