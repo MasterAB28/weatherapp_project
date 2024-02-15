@@ -30,6 +30,10 @@
              <button type="submit" class="btn btn-primary">Submit</button>
          </form>
     {% endif %}
+    <a href = "https://s3.eu-north-1.amazonaws.com/aviad.website/sky.jpg"
+      Download = "aviad_sky">
+         <button type = "button" class="btn btn-primary"> Download sky image </button>
+      </a>
     {% if method == 'post' and not_found == 'True' %}
         <h1 name="not-found" style="text-align: center; margin: 10px; color: darkred">Not Found<i class="fa-solid fa-heart-crack"></i></h1>
     {% elif method == 'post' and not_found == 'False' %}
