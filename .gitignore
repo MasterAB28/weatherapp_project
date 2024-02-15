@@ -11,3 +11,4 @@
 !app/requirements.txt
 !*.conf
 !compose.yml
+!v.txt
