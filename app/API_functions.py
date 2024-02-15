@@ -4,8 +4,10 @@ Reviewer: gili
 """
 
 import requests
-
+import boto3
 import datetime
+
+from flask import Response
 
 
 def gecode(city):
@@ -61,3 +63,8 @@ def get_weather(city):
             "not_found": "False"}
 
 
+def download_image():
+    s3_client = boto3.client('s3')
+    obj = s3_client.get_object(Bucket="aviad.website", Key="sky.jpg")
+    return Response(obj["Body"].read(), mimetype='Content-Type',
+                    headers={'Content-Disposition': 'attachment; filename=sky.jpg'})

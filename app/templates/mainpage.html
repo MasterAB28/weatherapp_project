@@ -36,6 +36,9 @@
          <button type = "button" class="btn btn-primary"> Download sky image </button>
       </a>
     </div>
+    <form action="/download" style="text-align: center;margin-top: 20px; margin-bottom: 80px">
+        <button type="submit" class="btn btn-primary">Download sky image API</button>
+    </form>
     {% if method == 'post' and not_found == 'True' %}
         <h1 name="not-found" style="text-align: center; margin: 10px; color: darkred">Not Found<i class="fa-solid fa-heart-crack"></i></h1>
     {% elif method == 'post' and not_found == 'False' %}

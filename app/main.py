@@ -4,7 +4,7 @@ Reviewer: gili
 """
 
 from flask import Flask, render_template, request
-from API_functions import get_weather
+from API_functions import get_weather, download_image
 
 app = Flask(__name__)
 
@@ -18,6 +18,11 @@ def search():
     if request.method == 'POST':
         city = request.form['city']
         return render_template('mainpage.html', **get_weather(city), method='post')
+
+
+@app.route("/download")
+def download():
+    return download_image()
 
 
 if __name__ == "__main__":
