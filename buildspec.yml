@@ -6,8 +6,8 @@ run-as: Linux-user-name
 phases:
   install:
     commands:
-      - apt update -y
-      - apt install -y docker.io
+      - yum update -y
+      - yum install -y docker.io
       - docker --version
   pre_build:
     commands:
