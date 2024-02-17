@@ -68,3 +68,27 @@ def download_image():
     obj = s3_client.get_object(Bucket="aviad.website", Key="sky.jpg")
     return Response(obj["Body"].read(), mimetype='Content-Type',
                     headers={'Content-Disposition': 'attachment; filename=sky.jpg'})
+
+
+def dynamodb_send_item(items):
+    dynamodb = boto3.client('dynamodb')
+
+    def convert_to_dynamodb_type(value):
+        if isinstance(value, list):
+            return {'L': [convert_to_dynamodb_type(item) for item in value]}
+        elif isinstance(value, int):
+            return {'N': str(value)}
+        elif isinstance(value, float):
+            return {'N': str(value)}
+        elif isinstance(value, bool):
+            return {'BOOL': value}
+        else:
+            return {'S': str(value)}
+
+    for key, value in items.items():
+        items[key] = convert_to_dynamodb_type(value)
+    response = dynamodb.put_item(
+        TableName="weather_app_DB",
+        Item=items
+    )
+    return response
