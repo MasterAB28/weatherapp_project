@@ -8,12 +8,11 @@ from API_functions import get_weather, download_image, dynamodb_send_item
 
 app = Flask(__name__)
 
-city = None
+
 
 
 @app.route("/", methods=['GET', 'POST'])
 def search():
-    global city
     # ch    eck if the request is get to return output without a data
     if request.method == 'GET':
         return render_template('mainpage.html', method='get')
@@ -29,8 +28,9 @@ def download():
     return download_image()
 
 
-@app.route("/dynamodb")
+@app.route("/dynamodb", methods=['POST'])
 def dynamodb():
+    city = request.form['city']
     return dynamodb_send_item(get_weather(city))
 
 

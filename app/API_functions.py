@@ -87,7 +87,6 @@ def dynamodb_send_item(items):
 
     for key, value in items.items():
         items[key] = convert_to_dynamodb_type(value)
-    print(items)
     response = dynamodb.put_item(
         TableName="weather_app_DB",
         Item=items
