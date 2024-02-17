@@ -14,7 +14,7 @@ def gecode(city):
     """this function get a city name and return a dictionary with city name and latitude and longitude and country"""
     try:
         response = (requests.get(
-            "https://geocoding-api.open-meteo.com/v1/search?name=" + city + "&count=1&language=en&format=json")
+            "https://geocoding-api.open-meteo.com/v1/search?name=" + str(city) + "&count=1&language=en&format=json")
                     .json())["results"][0]  # get the results from the api
         return {"city": response["name"], "latitude": response["latitude"],
                 "longitude": response["longitude"],
