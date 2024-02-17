@@ -12,7 +12,7 @@ phases:
       - echo Logging in to Amazon ECR....
       - aws --version
       # update the following line with your own region
-      - $(aws ecr get-login --no-include-email --region eu-north-1)
+      - aws ecr get-login-password --no-include-email --region eu-north-1
       - REPOSITORY_URI=public.ecr.aws/v7l9w0u1/weather_app
   build:
     commands:
