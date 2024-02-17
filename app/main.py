@@ -9,8 +9,6 @@ from API_functions import get_weather, download_image, dynamodb_send_item
 app = Flask(__name__)
 
 
-
-
 @app.route("/", methods=['GET', 'POST'])
 def search():
     # ch    eck if the request is get to return output without a data
