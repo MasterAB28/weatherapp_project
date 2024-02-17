@@ -3,7 +3,7 @@ Author: Aviad Barel
 Reviewer: gili
 """
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from API_functions import get_weather, download_image, dynamodb_send_item
 
 app = Flask(__name__)
@@ -19,7 +19,6 @@ def search():
     # check if the request is post to return an output with data
     if request.method == 'POST':
         city = request.form['city']
-        print(city)
         weather = get_weather(city)
         return render_template('mainpage.html', **weather, success='', method='post')
 
@@ -32,8 +31,8 @@ def download():
 @app.route("/dynamodb", methods=['POST'])
 def dynamodb():
     city = request.form['city']
-    print(city)
-    return dynamodb_send_item(get_weather(city))
+    response = dynamodb_send_item(get_weather(city))
+    return redirect('/')
 
 
 if __name__ == "__main__":
