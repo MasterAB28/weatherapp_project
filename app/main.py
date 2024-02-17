@@ -8,7 +8,7 @@ from API_functions import get_weather, download_image, dynamodb_send_item
 
 app = Flask(__name__)
 
-city = ''
+city = None
 
 
 @app.route("/", methods=['GET', 'POST'])
