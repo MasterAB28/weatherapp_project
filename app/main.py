@@ -19,6 +19,7 @@ def search():
     # check if the request is post to return an output with data
     if request.method == 'POST':
         city = request.form['city']
+        print(city)
         weather = get_weather(city)
         return render_template('mainpage.html', **weather, success='', method='post')
 
@@ -31,6 +32,7 @@ def download():
 @app.route("/dynamodb", methods=['POST'])
 def dynamodb():
     city = request.form['city']
+    print(city)
     return dynamodb_send_item(get_weather(city))
 
 

@@ -89,7 +89,8 @@
                 {% endfor %}
         </div>
         <form action="/dynamodb" style="text-align: center;margin-top: 20px; margin-bottom: 80px" method="post">
-            <input type="hidden" name="city" value={{ city }}>
+
+            <input type="hidden" name="city" value="{{ city }}">
             <button type="submit" class="btn btn-primary">Save in dynamoDB</button>
         </form>
 
