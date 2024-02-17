@@ -1,11 +1,11 @@
 version: 0.2
-  
+
 
 phases:
   install:
     commands:
-      - yum update -y
-      - yum install -y docker.io
+      - apt update -y
+      - apt install -y docker.io
       - docker --version
   pre_build:
     commands:
