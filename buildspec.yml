@@ -1,0 +1,33 @@
+version: 0.2
+
+run-as: Linux-user-name
+
+
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+    commands:
+      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2&
+      - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR....
+      - aws --version
+      # update the following line with your own region
+      - $(aws ecr get-login --no-include-email --region eu-north-1)
+      - REPOSITORY_URI=public.ecr.aws/v7l9w0u1/weather_app
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      # update the following line with the name of your own ECR repository
+      - docker build -t $REPOSITORY_URI/weather:latest .
+      - docker build -t $REPOSITORY_URI/nginx:latest nginx/
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo pushing to repo
+      # update the following line with the URI of your own ECR repository
+      - docker push $REPOSITORY_URI/weather:latest
+      - docker push $REPOSITORY_URI/nginx:latest
