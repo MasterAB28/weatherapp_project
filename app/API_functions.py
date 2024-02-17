@@ -71,7 +71,7 @@ def download_image():
 
 
 def dynamodb_send_item(items):
-    dynamodb = boto3.client('dynamodb')
+    dynamodb = boto3.client('dynamodb', region_name='eu-north-1')
 
     def convert_to_dynamodb_type(value):
         if isinstance(value, list):
