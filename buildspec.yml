@@ -36,3 +36,4 @@ artifacts:
     - compose.yml
     - appspec.yml
     - start-process.sh
+    - before-install.sh
