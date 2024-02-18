@@ -12,3 +12,5 @@
 !*.conf
 !compose.yml
 !buildspec.yml
+!appspec.yml
+!start-process.sh

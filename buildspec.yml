@@ -29,9 +29,10 @@ phases:
       # update the following line with the URI of your own ECR repository
       - docker push public.ecr.aws/v7l9w0u1/weather_app:latest
       - docker push public.ecr.aws/v7l9w0u1/nginx:latest
-    artifacts:
-      files:
-        - cloudformation.yml
-        - compose.yml
-        - appspec.yml
-        - start-process.sh
+
+artifacts:
+  files:
+    - cloudformation.yml
+    - compose.yml
+    - appspec.yml
+    - start-process.sh
