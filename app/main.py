@@ -18,7 +18,7 @@ def search():
     if request.method == 'POST':
         city = request.form['city']
         weather = get_weather(city)
-        return render_template('mainpage.html', **weather, success='', method='post')
+        return render_template('mainpage.html', **weather, method='post')
 
 
 @app.route("/download")

@@ -15,6 +15,6 @@ docker image tag public.ecr.aws/v7l9w0u1/weather_app:latest aviadbarel/weather_a
 ls /opt/codedeploy-agent/deployment-root/deployment-instructions
 ls /opt/codedeploy-agent/deployment-root/ongoing-deployment
 
-ls /codebuild/output/
+pwd
 
 docker-compose up -d
