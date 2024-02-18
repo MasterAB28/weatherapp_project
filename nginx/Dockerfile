@@ -1,3 +1,3 @@
 FROM nginx
-COPY weather.conf /etc/nginx/conf.d/default.conf
-COPY static /usr/share/nginx/www/static
+COPY nginx/weather.conf /etc/nginx/conf.d/default.conf
+COPY app/static /usr/share/nginx/www/static
