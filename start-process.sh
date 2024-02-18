@@ -12,7 +12,9 @@ docker pull public.ecr.aws/v7l9w0u1/weather_app:latest
 docker image tag public.ecr.aws/v7l9w0u1/nginx:latest aviadbarel/nginx:latest
 docker image tag public.ecr.aws/v7l9w0u1/weather_app:latest aviadbarel/weather_app:latest
 
-ls /opt/codedeploy-agent/deployment-root
-ls /codebuild/output/weather_app
+ls /opt/codedeploy-agent/deployment-root/deployment-instructions
+ls /opt/codedeploy-agent/deployment-root/ongoing-deployment
+
+ls /codebuild/output/
 
 docker-compose up -d
