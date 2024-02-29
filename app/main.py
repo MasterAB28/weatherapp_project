@@ -5,8 +5,10 @@ Reviewer: gili
 
 from flask import Flask, render_template, request, redirect
 from API_functions import get_weather, download_image, dynamodb_send_item
+from prometheus_flask_exporter import PrometheusMetrics
 
 app = Flask(__name__)
+metrics = PrometheusMetrics(app)
 
 
 @app.route("/", methods=['GET', 'POST'])

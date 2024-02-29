@@ -6,7 +6,6 @@ files:
 hooks:
   BeforeInstall:
     - location: before-install.sh
-      timeout: 180
   ApplicationStart:
     - location: start-process.sh
 timeout: 00
