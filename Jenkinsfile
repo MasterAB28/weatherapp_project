@@ -37,7 +37,8 @@ pipeline {
                     sh 'docker tag weather_app aviadbarel/weather_app:$BUILD_NUMBER'
                     sh 'docker tag weather_app aviadbarel/weather_app:latest'
                     sh 'docker login -u $DOCKERHUB_CREDENTIALS_USR -p $DOCKERHUB_CREDENTIALS_PSW'
-                    sh 'docker push aviadbarel/weather_app:$BUILD_NUMBER aviadbarel/weather_app:latest'
+                    sh 'docker push aviadbarel/weather_app:$BUILD_NUMBER'
+                    sh 'docker push aviadbarel/weather_app:latest'
                 }
             }
         }
