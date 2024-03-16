@@ -17,7 +17,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    sh 'docker build . -t aviadbarel/weather_app'
+                    sh 'docker build . -t weather_app'
                 }
             }
         }
@@ -31,11 +31,13 @@ pipeline {
                 }
             }
         }
-        stage ('Delivery') {
+        stage ('Push') {
             steps{
                 script {
+                    sh "docker tag weather_app aviadbarel/weather_app:${BUILD_NUMBER}"
+                    sh 'docker tag weather_app aviadbarel/weather_app:latest'
                     sh "docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p ${DOCKERHUB_CREDENTIALS_PSW}"
-                    sh "docker push aviadbarel/weather_app"
+                    sh "docker push aviadbarel/weather_app:${BUILD_NUMBER} aviadbarel/weather_app:latest"
                 }
             }
         }
