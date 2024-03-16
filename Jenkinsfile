@@ -9,11 +9,6 @@ pipeline {
     }
 
     stages {
-        stage('checkout') {
-            steps {
-                checkout scm
-            }
-        }
         stage('Build') {
             steps {
                 script {
@@ -36,7 +31,7 @@ pipeline {
                 script {
                     sh 'docker tag weather_app aviadbarel/weather_app:$BUILD_NUMBER'
                     sh 'docker tag weather_app aviadbarel/weather_app:latest'
-                    sh 'docker login -u $DOCKERHUB_CREDENTIALS_USR -p $DOCKERHUB_CREDENTIALS_PSW'
+                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                     sh 'docker push aviadbarel/weather_app:$BUILD_NUMBER'
                     sh 'docker push aviadbarel/weather_app:latest'
                 }
@@ -50,7 +45,8 @@ pipeline {
 //                     sh "scp -i ${SSH_CREDENTIALS_KEY} compose.yml ec2-user@${TARGET_HOST}:/home/ec2-user"
 //                     sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@${TARGET_HOST} docker-compose down"
                     sh 'ssh -i $SSH_CREDENTIALS_KEY ec2-user@$TARGET_HOST docker pull aviadbarel/weather_app'
-                    sh "ssh -i $SSH_CREDENTIALS_KEY ec2-user@$TARGET_HOST 'docker rm -f weather_app && docker run -d -p 80:8000 --name weather_app aviadbarel/weather_app'"                }
+                    sh 'ssh -i $SSH_CREDENTIALS_KEY ec2-user@$TARGET_HOST "docker rm -f weather_app && docker run -d -p 80:8000 --name weather_app aviadbarel/weather_app"'
+                }
             }
         }
     }
