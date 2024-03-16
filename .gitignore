@@ -11,3 +11,7 @@
 !app/requirements.txt
 !*.conf
 !compose.yml
+!buildspec.yml
+!appspec.yml
+!start-process.sh
+!before-install.sh
