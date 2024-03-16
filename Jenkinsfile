@@ -46,8 +46,8 @@ pipeline {
                     sh "ssh-keyscan -v -H ${TARGET_HOST} >> ~/.ssh/known_hosts"
 //                     sh "scp -i ${SSH_CREDENTIALS_KEY} compose.yml ec2-user@${TARGET_HOST}:/home/ec2-user"
 //                     sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@${TARGET_HOST} docker-compose down"
-                    sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@${TARGET_HOST} docker image rm -f aviadbarel/weather_app"
-                    sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@${TARGET_HOST} docker run -d -p 80:8000 aviadbarel/weather_app"
+                    sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@${TARGET_HOST} docker pull aviadbarel/weather_app"
+                    sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@${TARGET_HOST} docker rm -f weather_app && docker run -d -p 80:8000 --name weather_app aviadbarel/weather_app"
                 }
             }
         }
