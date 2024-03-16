@@ -25,7 +25,7 @@ pipeline {
             steps {
                 script {
                     // Run tests
-                    sh 'docker run -d -p 80:8000 --name test aviadbarel/weather_app '
+                    sh 'docker run -d -p 80:8000 --name test weather_app '
                     sh 'python3 tests/test.py'
                     sh 'docker rm -f test'
                 }
