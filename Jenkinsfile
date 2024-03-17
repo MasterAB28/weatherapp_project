@@ -78,8 +78,6 @@ pipeline {
         } 
 
         always {
-            cleanWs()
-            sh 'docker image rm -f weather_app'
             sh 'docker logout'
             }
     }
