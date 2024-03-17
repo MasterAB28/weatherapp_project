@@ -13,7 +13,7 @@ pipeline {
         stage('OWASP Dependency-Check Vulnerabilities') {
             steps {
                 script{
-                    sh "export JAVA_TOOL_OPTIONS = '-Xmx2g'"
+                    sh "export JAVA_TOOL_OPTIONS='-Xmx2g'"
                 }
                 dependencyCheck additionalArguments: ''' 
                             -o './'
