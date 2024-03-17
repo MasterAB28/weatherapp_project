@@ -7,6 +7,7 @@ pipeline {
         SSH_CREDENTIALS_KEY = credentials("${SSH_CREDENTIALS_ID}")
         TARGET_HOST = '172.31.40.29'
         SNYK_HOME = tool name: 'snyk'
+        SONAR_SCANNER_HOME = tool 'SonarCloud'
     }
    
     stages {
@@ -14,7 +15,7 @@ pipeline {
             steps{
                 withSonarQubeEnv(installationName: 'SonarCloud') {
                     sh ''' 
-                        sonar-scanner \
+                        ${scannerHome}/bin/sonar-scanner \
                         -Dsonar.projectKey=aviad_aviad \
                         -Dsonar.sources=. \
                         -Dsonar.python.coverage.reportPaths=coverage.xml \
