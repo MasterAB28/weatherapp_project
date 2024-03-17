@@ -85,7 +85,7 @@ pipeline {
             }
             steps{
                 script {
-                    sh 'docker trust key generate --passphrase "" weather'
+                    sh 'echo " " | docker trust key generate weather --passphrase-stdin'
                     sh 'docker trust signer add --key cert.pem weather aviadbarel/weather_app'
                     sh 'docker trust sign --key weather.pub aviadbarel/weather_app:$BUILD_NUMBER'
                 }
