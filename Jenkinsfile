@@ -14,7 +14,7 @@ pipeline {
         stage('Static analysis') {
             steps{
                 withSonarQubeEnv(installationName: 'SonarCloud') {
-                    sh """${scannerHome}/bin/sonar-scanner \
+                    sh """${SONAR_SCANNER_HOME}/bin/sonar-scanner \
                         -Dsonar.projectKey=aviad_weather \
                         -Dsonar.sources=./app \
                         -Dsonar.python.coverage.reportPaths=coverage.xml \
