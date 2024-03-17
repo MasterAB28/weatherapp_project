@@ -13,7 +13,6 @@ pipeline {
         stage('Static analysis') {
             steps{
                 script{
-                    sh 'python3 -m pip install --upgrade pip'
                     sh 'pip install flake8'
                     sh 'flake8 --max-line-length 120 ./app/'
                 }
