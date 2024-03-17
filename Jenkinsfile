@@ -28,6 +28,9 @@ pipeline {
             }
         }
         stage ('Push') {
+            when{
+                branch 'main'
+            }
             steps{
                 script {
                     sh 'docker tag weather_app aviadbarel/weather_app:$BUILD_NUMBER'
@@ -41,7 +44,7 @@ pipeline {
 
         stage('Deploy') {
             when{
-                branch 'production'
+                branch 'main'
             }
             steps {
                 script{
