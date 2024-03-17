@@ -1,6 +1,6 @@
 Flask==3.0.0
 gunicorn==21.2.0
-requests==2.25.1
+requests==2.31.0
 selenium==4.17.2
 boto3==1.34.23
 prometheus-flask-exporter
