@@ -14,13 +14,13 @@ pipeline {
         stage('Static analysis') {
             steps{
                 withSonarQubeEnv(installationName: 'SonarCloud') {
-                    sh ''' 
+                    sh " 
                         ${scannerHome}/bin/sonar-scanner \
-                        -Dsonar.projectKey=aviad_aviad \
+                        -Dsonar.projectKey=aviad_weather \
                         -Dsonar.sources=. \
                         -Dsonar.python.coverage.reportPaths=coverage.xml \
                         -Dsonar.python.xunit.reportPaths=test_results.xml \
-                    '''
+                    "
                 }
             }
         }
