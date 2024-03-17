@@ -43,9 +43,8 @@ pipeline {
                     snykInstallation: 'snyk',
                     snykTokenId: 'snyk',
                     dockerImage: 'weather_app:latest',
-                    additionalArguments: '--file=Dockerfile',
-                    failOnIssues: true,
-                    failOnMissing: true
+                    targetFile: './Dockerfile',
+                    failOnIssues: true
                     )
                 
                     // Run tests
