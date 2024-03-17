@@ -15,7 +15,7 @@ pipeline {
                 dependencyCheck additionalArguments: '''
                 --enableExperimental
                 --scan 'app/'
-                -f 'XML'
+                -f 'ALL'
                 --prettyPrint''',
                 odcInstallation: 'OWASP',
                 nvdCredentialsId: 'NVD',
@@ -27,6 +27,8 @@ pipeline {
             }
         }
 
+        
+
         stage('Build') {
             steps {
                 script {
@@ -37,6 +39,13 @@ pipeline {
         stage('Tests') {
             steps {
                 script {
+                    snykSecurity(
+                    severity: 'critical',
+                    snykInstallation: 'snyk',
+                    snykTokenId: 'snyk',
+                    targetFile: 'Dockerfile'
+                    )
+                
                     // Run tests
                     sh 'docker run -d -p 80:8000 --name test weather_app '
                     sh 'python3 tests/test.py'
