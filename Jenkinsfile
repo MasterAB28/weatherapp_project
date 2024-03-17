@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Static analysis') {
             steps{
-                withSonarQubeEnv('SonarCloud') {
+                withSonarQubeEnv(installationName: 'SonarCloud') {
                     sh ''' 
                         sonar-scanner \
                         -Dsonar.projectKey=aviad_aviad \
