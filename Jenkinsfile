@@ -7,6 +7,12 @@ pipeline {
         SSH_CREDENTIALS_KEY = credentials("${SSH_CREDENTIALS_ID}")
         TARGET_HOST = '172.31.40.29'
     }
+    options {
+        // Increase the heap space for the Jenkins agent
+        agent {
+            jvmArgs: '-Xmx4G' // Adjust the value as needed
+        }
+    }
 
     stages {
 
@@ -16,7 +22,7 @@ pipeline {
                             -o './'
                             -s './'
                             -f 'ALL' 
-                            --prettyPrint''', odcInstallation: 'OWASP', nvdCredentialsId: 'NVD', stopBuild: true, jvmOptions: '-Xmx2G'
+                            --prettyPrint''', odcInstallation: 'OWASP', nvdCredentialsId: 'NVD', stopBuild: true
                 
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
             }
