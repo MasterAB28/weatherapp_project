@@ -9,9 +9,12 @@ pipeline {
     }
 
     stages {
-        
+
         stage('OWASP Dependency-Check Vulnerabilities') {
             steps {
+                script{
+                    sh 'export JAVA_TOOL_OPTIONS=-Xmx512m'
+                }
                 dependencyCheck additionalArguments: ''' 
                             -o './'
                             -s './'
