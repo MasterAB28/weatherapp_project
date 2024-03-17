@@ -40,10 +40,12 @@ pipeline {
             steps {
                 script {
                     snykSecurity(
-                    severity: 'critical',
                     snykInstallation: 'snyk',
                     snykTokenId: 'snyk',
-                    targetFile: 'Dockerfile'
+                    dockerImage: 'weather_app:latest',
+                    additionalArguments: '--file=Dockerfile',
+                    failOnIssues: true,
+                    failOnMissing: true
                     )
                 
                     // Run tests
