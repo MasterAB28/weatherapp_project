@@ -6,6 +6,7 @@ pipeline {
         SSH_CREDENTIALS_ID = 'Sshdeploy'
         SSH_CREDENTIALS_KEY = credentials("${SSH_CREDENTIALS_ID}")
         TARGET_HOST = '172.31.40.29'
+        SNYK_HOME = tool name: 'snyk'
     }
    
     stages {
@@ -38,15 +39,13 @@ pipeline {
         }
         stage('Tests') {
             steps {
-                script {
-                    snykSecurity(
-                    snykInstallation: 'snyk',
-                    snykTokenId: 'snyk',
-                    dockerImage: 'weather_app:latest',
-                    targetFile: './Dockerfile',
-                    failOnIssues: true
-                    )
                 
+                withCredentials([string(credentialsId: 'snyk', variable: 'TOKEN')]) {
+                    sh "${SNYK_HOME}/snyk-linux auth $TOKEN"
+                    sh "${SNYK_HOME}/snyk-linux container test weather_app:latest --file=Dockerfile"
+                }
+                    
+                script {
                     // Run tests
                     sh 'docker run -d -p 80:8000 --name test weather_app '
                     sh 'python3 tests/test.py'
