@@ -22,6 +22,7 @@ pipeline {
                         -Dsonar.python.xunit.reportPaths=test_results.xml \
                         -Dsonar.login=$SONAR_TOKEN
                     '''
+                }
             }
         }
 
