@@ -10,6 +10,12 @@ pipeline {
     }
    
     stages {
+        stage('Static analysis') {
+            script{
+                sh 'pip install flake8'
+                sh 'flake8 --max-line-length 120 ./app/'
+            }
+        }
 
         stage('OWASP Dependency-Check Vulnerabilities') {
             steps {
@@ -42,7 +48,8 @@ pipeline {
                 script {
                     withCredentials([string(credentialsId: 'snyk-api-key', variable: 'TOKEN')]) {
                     sh "${SNYK_HOME}/snyk-linux auth $TOKEN"
-                    sh "${SNYK_HOME}/snyk-linux container test weather_app:latest --file=Dockerfile --json-file-output=./snyk.json --severity-threshold=high"
+                    sh "${SNYK_HOME}/snyk-linux container test weather_app:latest --file=Dockerfile 
+                        --json-file-output=./snyk.json --severity-threshold=high"
                     }
                     // Run tests
                     sh 'docker run -d -p 80:8000 --name test weather_app '

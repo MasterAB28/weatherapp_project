@@ -31,7 +31,7 @@ def download():
 @app.route("/dynamodb", methods=['POST'])
 def dynamodb():
     city = request.form['city']
-    response = dynamodb_send_item(get_weather(city))
+    dynamodb_send_item(get_weather(city))
     return redirect('/')
 
 
