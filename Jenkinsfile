@@ -85,9 +85,7 @@ pipeline {
             }
             steps{
                 script {
-                    sh 'export DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE="mypassphrase123"'
-                    sh 'export DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE="repopassphrase123"'
-                    sh 'docker trust key generate weather'
+                    sh 'echo "aviad" | docker trust key generate --passphrase-stdin weather'
                     sh 'docker trust signer add --key cert.pem weather aviadbarel/weather_app'
                     sh 'docker trust sign --key weather.pub aviadbarel/weather_app:$BUILD_NUMBER'
                 }
