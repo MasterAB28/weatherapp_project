@@ -21,7 +21,9 @@ pipeline {
                 nvdCredentialsId: 'NVD',
                 stopBuild: true
                 
-                dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+                dependencyCheckPublisher pattern: 'dependency-check-report.xml',
+                failedTotalCritical: 1,
+                stopBuild: true
             }
         }
 
