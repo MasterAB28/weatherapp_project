@@ -40,7 +40,7 @@ pipeline {
         stage('Tests') {
             steps {
                 script {
-                    withCredentials([string(credentialsId: 'snyk', variable: 'TOKEN')]) {
+                    withCredentials([string(credentialsId: 'snyk-api-key', variable: 'TOKEN')]) {
                     sh "${SNYK_HOME}/snyk-linux auth $TOKEN"
                     sh "${SNYK_HOME}/snyk-linux container test weather_app:latest --file=Dockerfile"
                     }
