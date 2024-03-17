@@ -15,7 +15,7 @@ pipeline {
                             -o './'
                             -s './'
                             -f 'ALL' 
-                            --prettyPrint''', odcInstallation: 'OWASP'
+                            --prettyPrint''', odcInstallation: 'OWASP', nvdCredentialsId: 'NVD', stopBuild: true
                 
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
             }
