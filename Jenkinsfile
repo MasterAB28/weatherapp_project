@@ -74,7 +74,8 @@ pipeline {
                     sh 'docker tag weather_app aviadbarel/weather_app:$BUILD_NUMBER'
                     sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                     sh 'docker push aviadbarel/weather_app:$BUILD_NUMBER'
-                                    }
+                                    
+                }
             }
         }
 
@@ -84,9 +85,9 @@ pipeline {
             }
             steps{
                 script {
-                    sh 'docker trust key generate weather'
+                    sh 'docker trust key generate --passphrase "" weather'
                     sh 'docker trust signer add --key cert.pem weather aviadbarel/weather_app'
-                    sh 'docker trust sign aviadbarel/weather_app:$BUILD_NUMBER'
+                    sh 'docker trust sign --key weather.pub aviadbarel/weather_app:$BUILD_NUMBER'
                 }
             }
         }
