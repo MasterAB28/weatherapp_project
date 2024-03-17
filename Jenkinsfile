@@ -72,9 +72,10 @@ pipeline {
             steps{
                 script {
                     sh 'docker tag weather_app aviadbarel/weather_app:$BUILD_NUMBER'
+                    sh 'docker tag weather_app aviadbarel/weather_app:latest'
                     sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                     sh 'docker push aviadbarel/weather_app:$BUILD_NUMBER'
-                                    
+                    sh 'docker push aviadbarel/weather_app:latest'
                 }
             }
         }
@@ -85,9 +86,8 @@ pipeline {
             }
             steps{
                 script {
-                    sh 'echo "aviad" | docker trust key generate --passphrase-stdin weather'
-                    sh 'docker trust signer add --key cert.pem weather aviadbarel/weather_app'
-                    sh 'docker trust sign --key weather.pub aviadbarel/weather_app:$BUILD_NUMBER'
+                    sh 'docker trust sign aviadbarel/weather_app:$BUILD_NUMBER'
+                    sh 'docker trust sign aviadbarel/weather_app:latest'
                 }
             }
         }
@@ -101,8 +101,8 @@ pipeline {
                     sh 'ssh-keyscan -v -H $TARGET_HOST >> ~/.ssh/known_hosts'
 //                     sh "scp -i ${SSH_CREDENTIALS_KEY} compose.yml ec2-user@${TARGET_HOST}:/home/ec2-user"
 //                     sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@${TARGET_HOST} docker-compose down"
-                    sh 'ssh -i $SSH_CREDENTIALS_KEY ec2-user@$TARGET_HOST docker pull aviadbarel/weather_app:$BUILD_NUMBER'
-                    sh 'ssh -i $SSH_CREDENTIALS_KEY ec2-user@$TARGET_HOST "docker rm -f weather_app && docker run -d -p 80:8000 --name weather_app aviadbarel/weather_app:$BUILD_NUMBER"'
+                    sh 'ssh -i $SSH_CREDENTIALS_KEY ec2-user@$TARGET_HOST "export DOCKER_CONTENT_TRUST=1 | docker pull aviadbarel/weather_app:latest"'
+                    sh 'ssh -i $SSH_CREDENTIALS_KEY ec2-user@$TARGET_HOST "docker rm -f weather_app && docker run -d -p 80:8000 --name weather_app aviadbarel/weather_app:latest"'
                 }
             }
         }
