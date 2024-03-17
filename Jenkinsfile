@@ -7,7 +7,6 @@ pipeline {
         SSH_CREDENTIALS_KEY = credentials("${SSH_CREDENTIALS_ID}")
         TARGET_HOST = '172.31.40.29'
         SNYK_HOME = tool name: 'snyk'
-        SONAR_TOKEN = credentials('sonarcloud-token')
     }
    
     stages {
@@ -20,7 +19,6 @@ pipeline {
                         -Dsonar.sources=. \
                         -Dsonar.python.coverage.reportPaths=coverage.xml \
                         -Dsonar.python.xunit.reportPaths=test_results.xml \
-                        -Dsonar.login=$SONAR_TOKEN
                     '''
                 }
             }
