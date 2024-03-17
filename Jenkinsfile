@@ -39,13 +39,11 @@ pipeline {
         }
         stage('Tests') {
             steps {
-                
-                withCredentials([string(credentialsId: 'snyk', variable: 'TOKEN')]) {
+                script {
+                    withCredentials([string(credentialsId: 'snyk', variable: 'TOKEN')]) {
                     sh "${SNYK_HOME}/snyk-linux auth $TOKEN"
                     sh "${SNYK_HOME}/snyk-linux container test weather_app:latest --file=Dockerfile"
-                }
-                    
-                script {
+                    }
                     // Run tests
                     sh 'docker run -d -p 80:8000 --name test weather_app '
                     sh 'python3 tests/test.py'
