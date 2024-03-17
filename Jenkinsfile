@@ -15,6 +15,7 @@ pipeline {
             steps{
                 withSonarQubeEnv(installationName: 'SonarCloud') {
                     sh """${SONAR_SCANNER_HOME}/bin/sonar-scanner \
+                        -Dsonar.organization=aviad \
                         -Dsonar.projectKey=aviad_weather \
                         -Dsonar.sources=./app \
                         -Dsonar.python.coverage.reportPaths=coverage.xml \
