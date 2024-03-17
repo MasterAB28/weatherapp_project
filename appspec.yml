@@ -1,0 +1,11 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ec2-user
+hooks:
+  BeforeInstall:
+    - location: before-install.sh
+  ApplicationStart:
+    - location: start-process.sh
+timeout: 00

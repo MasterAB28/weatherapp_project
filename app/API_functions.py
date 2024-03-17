@@ -4,8 +4,10 @@ Reviewer: gili
 """
 
 import requests
-
+import boto3
 import datetime
+
+from flask import Response
 
 
 def gecode(city):
@@ -61,3 +63,32 @@ def get_weather(city):
             "not_found": "False"}
 
 
+def download_image():
+    s3_client = boto3.client('s3')
+    obj = s3_client.get_object(Bucket="aviad.website", Key="sky.jpg")
+    return Response(obj["Body"].read(), mimetype='Content-Type',
+                    headers={'Content-Disposition': 'attachment; filename=sky.jpg'})
+
+
+def dynamodb_send_item(items):
+    dynamodb = boto3.client('dynamodb', region_name='eu-north-1')
+
+    def convert_to_dynamodb_type(value):
+        if isinstance(value, list):
+            return {'L': [convert_to_dynamodb_type(item) for item in value]}
+        elif isinstance(value, int):
+            return {'N': str(value)}
+        elif isinstance(value, float):
+            return {'N': str(value)}
+        elif isinstance(value, bool):
+            return {'BOOL': value}
+        else:
+            return {'S': str(value)}
+
+    for key, value in items.items():
+        items[key] = convert_to_dynamodb_type(value)
+    response = dynamodb.put_item(
+        TableName="weather_app_DB",
+        Item=items
+    )
+    return response

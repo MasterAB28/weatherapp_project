@@ -13,7 +13,7 @@
     <title>Weather</title>
 </head>
 <body>
-    <h1 style="margin-top: 50px;margin-bottom: 80px; text-align: center">Avihad Weather</h1>
+    <h1 style="margin-top: 50px;margin-bottom: 80px; text-align: center">Aviad Weather</h1>
     {% if method == 'get' %}
         <form class="form-group" action="/" method="post" style="text-align: center;margin-top: 200px; margin-bottom: 80px">
              <label style="width: auto; line-height: 60px">
@@ -25,11 +25,16 @@
     {% elif method == 'post' %}
          <form class="form-group" action="/" method="post" style="text-align: center;margin-top: 20px; margin-bottom: 80px">
              <label style="width: auto; line-height: 60px">
-                 <input class="form-control" type="text" placeholder="Search city" name="city">
+                 <input class="form-control" type="text" value="{{ city }}" name="city">
              </label>
              <button type="submit" class="btn btn-primary">Submit</button>
          </form>
     {% endif %}
+
+    <form action="/download" style="text-align: center;margin-top: 20px; margin-bottom: 80px">
+        <button type="submit" class="btn btn-primary">Download sky image API</button>
+    </form>
+
     {% if method == 'post' and not_found == 'True' %}
         <h1 name="not-found" style="text-align: center; margin: 10px; color: darkred">Not Found<i class="fa-solid fa-heart-crack"></i></h1>
     {% elif method == 'post' and not_found == 'False' %}
@@ -83,6 +88,13 @@
                 </div>
                 {% endfor %}
         </div>
+        <form action="/dynamodb" style="text-align: center;margin-top: 20px; margin-bottom: 80px" method="post">
+
+            <input type="hidden" name="city" value="{{ city }}">
+            <button type="submit" class="btn btn-primary">Save in dynamoDB</button>
+        </form>
+
+
     </div>
     {% endif %}
 

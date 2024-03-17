@@ -6,14 +6,13 @@ pipeline {
         SSH_CREDENTIALS_ID = 'Sshdeploy'
         SSH_CREDENTIALS_KEY = credentials("${SSH_CREDENTIALS_ID}")
         TARGET_HOST = '172.31.40.29'
-        version=readfile('./v.txt').trim()
     }
 
     stages {
         stage('Build') {
             steps {
                 script {
-                    sh 'docker build . -t aviadbarel/weather_app'
+                    sh 'docker build . -t weather_app'
                 }
             }
         }
@@ -21,24 +20,21 @@ pipeline {
             steps {
                 script {
                     // Run tests
-                    sh 'docker compose up -d'
+                    sh 'docker run -d -p 80:8000 --name test weather_app '
                     sh 'python3 tests/test.py'
-                    sh 'python3 tests/test_selenium.py'
+
+                    sh 'docker rm -f test'
                 }
             }
         }
-        
-        stage ('Delivery') {
-            when{
-                branch 'pre-production'
-            }
+        stage ('Push') {
             steps{
                 script {
-                    sh "docker tag aviadbarel/weather_app aviadbarel/weather_app:latest"
-                    sh "docker tag aviadbarel/weather_app aviadbarel/weather_app:${version}-${BUILD_NUMBER}"
-                    sh "docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p ${DOCKERHUB_CREDENTIALS_PSW}"
-                    sh "docker push aviadbarel/weather_app:latest"
-                    sh "docker push aviadbarel/weather_app:${version}-${BUILD_NUMBER}"
+                    sh 'docker tag weather_app aviadbarel/weather_app:$BUILD_NUMBER'
+                    sh 'docker tag weather_app aviadbarel/weather_app:latest'
+                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                    sh 'docker push aviadbarel/weather_app:$BUILD_NUMBER'
+                    sh 'docker push aviadbarel/weather_app:latest'
                 }
             }
         }
@@ -49,10 +45,11 @@ pipeline {
             }
             steps {
                 script{
-                    sh "ssh-keyscan -v -H ${TARGET_HOST} >> ~/.ssh/known_hosts"
-                    // sh "scp -i ${SSH_CREDENTIALS_KEY} compose.yml ec2-user@${TARGET_HOST}:/home/ec2-user"
-                    sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@${TARGET_HOST} docker-compose stop && docker-compose rm -f"
-                    sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@${TARGET_HOST} docker-compose pull && docker-compose up -d"
+                    sh 'ssh-keyscan -v -H $TARGET_HOST >> ~/.ssh/known_hosts'
+//                     sh "scp -i ${SSH_CREDENTIALS_KEY} compose.yml ec2-user@${TARGET_HOST}:/home/ec2-user"
+//                     sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@${TARGET_HOST} docker-compose down"
+                    sh 'ssh -i $SSH_CREDENTIALS_KEY ec2-user@$TARGET_HOST docker pull aviadbarel/weather_app'
+                    sh 'ssh -i $SSH_CREDENTIALS_KEY ec2-user@$TARGET_HOST "docker rm -f weather_app && docker run -d -p 80:8000 --name weather_app aviadbarel/weather_app"'
                 }
             }
         }
@@ -67,8 +64,7 @@ pipeline {
 
         always {
             cleanWs()
-            sh 'docker compose down'
-            sh 'docker image rm -f aviadbarel/weather_app'
+            sh 'docker image rm -f weather_app'
             sh 'docker logout'
             }
     }
