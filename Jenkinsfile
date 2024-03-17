@@ -7,15 +7,21 @@ pipeline {
         SSH_CREDENTIALS_KEY = credentials("${SSH_CREDENTIALS_ID}")
         TARGET_HOST = '172.31.40.29'
         SNYK_HOME = tool name: 'snyk'
+        SONAR_TOKEN = credentials('sonarcloud-token')
     }
    
     stages {
         stage('Static analysis') {
             steps{
-                script{
-                    sh 'apt install python3-flake8'
-                    sh 'flake8 --max-line-length 120 ./app/'
-                }
+                withSonarQubeEnv('SonarCloud') {
+                    sh ''' 
+                        sonar-scanner \
+                        -Dsonar.projectKey=aviad_aviad \
+                        -Dsonar.sources=. \
+                        -Dsonar.python.coverage.reportPaths=coverage.xml \
+                        -Dsonar.python.xunit.reportPaths=test_results.xml \
+                        -Dsonar.login=$SONAR_TOKEN
+                    '''
             }
         }
 
