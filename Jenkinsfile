@@ -3,12 +3,12 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
-        SSH_CREDENTIALS_ID = 'Sshdeploy'
-        SSH_CREDENTIALS_KEY = credentials("${SSH_CREDENTIALS_ID}")
+        SSH_CREDENTIALS_KEY = credentials('Sshdeploy')
         TARGET_HOST = '172.31.40.29'
         SNYK_HOME = tool name: 'snyk'
         SONAR_SCANNER_HOME = tool 'SonarCloud'
         IMAGE_NAME = 'weatherapp'
+        DOCKER_PASSPHRASE = credentials('DockerPassphrase')
     }
    
     stages {
@@ -56,8 +56,8 @@ pipeline {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'snyk-api-key', variable: 'TOKEN')]) {
-                    sh '$SNYK_HOME/snyk-linux auth $TOKEN'
-                    sh '$SNYK_HOME/snyk-linux container test $IMAGE_NAME:latest --file=Dockerfile --json-file-output=./snyk.json --severity-threshold=high'
+                        sh '$SNYK_HOME/snyk-linux auth $TOKEN'
+                        sh '$SNYK_HOME/snyk-linux container test $IMAGE_NAME:latest --file=Dockerfile --json-file-output=./snyk.json --severity-threshold=high'
                     }
                     // Run tests
                     sh 'docker run -d -p 80:8000 --name test $IMAGE_NAME '
@@ -100,8 +100,7 @@ pipeline {
             steps {
                 script{
                     sh 'ssh-keyscan -v -H $TARGET_HOST >> ~/.ssh/known_hosts'
-//                     sh "scp -i ${SSH_CREDENTIALS_KEY} compose.yml ec2-user@${TARGET_HOST}:/home/ec2-user"
-//                     sh "ssh -i ${SSH_CREDENTIALS_KEY} ec2-user@${TARGET_HOST} docker-compose down"
+
                     sh 'ssh -i $SSH_CREDENTIALS_KEY ec2-user@$TARGET_HOST "export DOCKER_CONTENT_TRUST=1 && docker pull aviadbarel/$IMAGE_NAME:latest"'
                     sh 'ssh -i $SSH_CREDENTIALS_KEY ec2-user@$TARGET_HOST "docker rm -f $IMAGE_NAME && docker run -d -p 80:8000 --name $IMAGE_NAME aviadbarel/$IMAGE_NAME:latest"'
                 }
