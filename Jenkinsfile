@@ -87,8 +87,8 @@ pipeline {
             }
             steps{
                 script {
-                    sh 'echo "av280800" | docker trust sign aviadbarel/$IMAGE_NAME:$BUILD_NUMBER'
-                    sh 'echo "av280800" | docker trust sign aviadbarel/$IMAGE_NAME:latest'
+                    sh 'echo $DOCKER_PASSPHRASE | docker trust sign aviadbarel/$IMAGE_NAME:$BUILD_NUMBER'
+                    sh 'echo $DOCKER_PASSPHRASE | docker trust sign aviadbarel/$IMAGE_NAME:latest'
                 }
             }
         }
