@@ -20,11 +20,13 @@ def search():
         return render_template('mainpage.html', method='get')
     # check if the request is post to return an output with data
     if request.method == 'POST':
-        city = request.form['city']
-        weather = get_weather(city)
-        save_history(weather)
-        return render_template('mainpage.html', **weather, method='post', bg_color=bg_color)
-
+        try:
+            city = request.form['city']
+            weather = get_weather(city)
+            save_history(weather)
+            return render_template('mainpage.html', **weather, method='post', bg_color=bg_color)
+        except KeyError:
+            return render_template('mainpage.html', **weather, method='post', bg_color=bg_color)
 
 @app.route("/download")
 def download():
@@ -41,7 +43,7 @@ def dynamodb():
 @app.route('/download_history')
 def download_history():
     directory_path = os.path.join(os.path.abspath(os.getcwd()), "history")
-    files = os.listdir(directory_path)
+    files = [file for file in os.listdir(directory_path) if file.endswith('.json')]
     files.sort()
     return render_template('download_history.html', files=files)
 

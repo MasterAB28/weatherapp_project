@@ -9,7 +9,7 @@ metadata:
     alb.ingress.kubernetes.io/target-type: instance
 spec:
   rules:
-  - host: argocd.whats-the-weather.com  # Set your desired hostname here
+  - host: argocd.aviad.click
     http:
       paths:
       - path: /*
