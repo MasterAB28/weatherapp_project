@@ -15,3 +15,4 @@
 !AWS-pipeline/appspec.yml
 !scripts/start-process.sh
 !scripts/before-install.sh
+!*.yaml

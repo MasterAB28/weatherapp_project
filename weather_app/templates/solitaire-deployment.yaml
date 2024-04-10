@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: solitaire-deployment
+  labels:
+    app: solitaire
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: solitaire
+  template:
+    metadata:
+      labels:
+        app: solitaire
+    spec:
+      containers:
+        - name: solitaire
+          image: "{{ .Values.solitaireImage.repository }}:{{ .Values.solitaireImage.tag }}"
+          imagePullPolicy: {{ .Values.solitaireImage.pullPolicy }}
+          ports:
+            - containerPort: 80
+

@@ -1,0 +1,18 @@
+weatherAppImage:
+  repository: aviadbarel/weather_app
+  tag: latest
+  pullPolicy: Always
+solitaireImage:
+  repository: chimenesjr/solitaire
+  tag: nginx
+  pullPolicy: IfNotPresent
+bgColorConfigMap: bg-color-blue
+dockerconfigjson: |
+  {
+    "auths": {
+      "https://index.docker.io/v1/": {
+        "auth": "YXZpYWRiYXJlbDpkY2tyX3BhdF9rVmtPODlVV2FBWVhjT3lrTnhVcWd6cTM4Mlk="
+      }
+    }
+  }
+

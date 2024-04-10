@@ -1,0 +1,16 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: my-cluster
+  region: eu-north-1
+
+managedNodeGroups:
+  - name: ng-1
+    instanceType: t3.medium
+    desiredCapacity: 2
+    volumeSize: 20
+#    iam:
+#      attachPolicyARNs:
+#        - arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
+#        - arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
