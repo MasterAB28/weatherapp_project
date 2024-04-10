@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='download_history.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Download History</h1>
+        <ul>
+            {% for file in files %}
+                <li>
+                    <a href="{{ url_for('download_file', filename=file) }}" class="download-btn">
+                        <i class="fas fa-download icon"></i>{{ file }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

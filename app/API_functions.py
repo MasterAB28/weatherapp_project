@@ -2,6 +2,7 @@
 Author: Aviad Barel
 Reviewer: gili
 """
+import json
 
 import requests
 import boto3
@@ -92,3 +93,12 @@ def dynamodb_send_item(items):
         Item=items
     )
     return response
+
+
+def save_history(weather):
+    date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    city = weather['city']
+    with open(f"history/{date}-{city}.json", "w") as file:
+        json.dump(weather, file, indent=4)
+
+
