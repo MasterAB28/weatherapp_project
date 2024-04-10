@@ -35,3 +35,7 @@ spec:
         - name: ebs-volume
           persistentVolumeClaim:
             claimName: ebs-pvc
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 1
