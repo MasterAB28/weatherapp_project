@@ -37,5 +37,5 @@ spec:
             claimName: ebs-pvc
   strategy:
     rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 1
+      maxSurge: 50%
+      maxUnavailable: 0
