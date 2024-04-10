@@ -6,7 +6,7 @@ solitaireImage:
   repository: chimenesjr/solitaire
   tag: nginx
   pullPolicy: IfNotPresent
-bgColorConfigMap: bg-color-blue
+bgColorConfigMap: bg-color-green
 dockerconfigjson: |
   {
     "auths": {
