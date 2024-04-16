@@ -43,8 +43,6 @@ pipeline {
             }
         }
 
-        
-
         stage('Build') {
             steps {
                 script {
@@ -109,22 +107,23 @@ pipeline {
                             sh 'git config --global user.name Aviad'
                             sh 'git commit -m "JenkinsAction: Update Docker image tag"'
                             sh 'git push'
-
+                        }
                     }
                 }
             }
         }
+    } // Close stages block
+
     post {
         success{
             slackSend(channel: 'succeeded-build', color: 'good', message: "Tests passed! build: ${BUILD_NUMBER} commit: ${GIT_COMMIT}")
         }
         failure{
             slackSend(channel: 'devops-alert', color: 'danger', message: "Tests failed! ${BUILD_NUMBER} commit: ${GIT_COMMIT}")
-        } 
-
+        }
         always {
             cleanWs()
             sh 'docker logout'
         }
-    }
-}
+    } // Close post block
+} // Close pipeline block
