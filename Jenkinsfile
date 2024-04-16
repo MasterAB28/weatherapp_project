@@ -109,7 +109,7 @@ pipeline {
                             sh 'git config --global user.name Aviad'
                             sh 'git commit -m "JenkinsAction: Update Docker image tag"'
                             sh 'git push'
-                        }
+
                     }
                 }
             }
