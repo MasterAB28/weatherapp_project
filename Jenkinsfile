@@ -52,6 +52,7 @@ pipeline {
                 }
             }
         }
+
         stage('Tests') {
             steps {
                 script {
@@ -124,6 +125,6 @@ pipeline {
         always {
             cleanWs()
             sh 'docker logout'
-            }
+        }
     }
 }
