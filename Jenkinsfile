@@ -90,29 +90,30 @@ pipeline {
         }
 
         stage('Deploy') {
-            when{
+            when {
                 branch 'main'
             }
             steps {
-                script{
-                    dir('/home/jenkins/workspace'){
+                withCredentials([string(credentialsId: 'gitlab_weather_repo_helm', variable: 'GITLAB_TOKEN')]) {
+                    script {
+                        dir('/home/jenkins/workspace') {
+                            sh "git clone http://$GITLAB_TOKEN@172.31.35.116/root/weather_app_helm.git"
+                            dir('/home/jenkins/workspace/weather_app_helm') {
+                                sh 'chmod +x ./version.sh'
+                                sh "./version.sh $BUILD_NUMBER"
 
-                        sh "git clone http://$GITLAB_TOKEN@172.31.35.116/root/weather_app_helm.git"
-                        dir('/home/jenkins/workspace/weather_app_helm'){
-                            sh 'chmod +x ./version.sh'
-                            sh "./version.sh $BUILD_NUMBER"
-
-                            sh 'git add .'
-                            sh 'git config --global user.email aviad0909@gmail.com'
-                            sh 'git config --global user.name Aviad'
-                            sh 'git commit -m "JenkinsAction: Update Docker image tag"'
-                            sh 'git push'
+                                sh 'git add .'
+                                sh 'git config --global user.email aviad0909@gmail.com'
+                                sh 'git config --global user.name Aviad'
+                                sh 'git commit -m "JenkinsAction: Update Docker image tag"'
+                                sh 'git push'
+                            }
                         }
                     }
                 }
             }
         }
-    } // Close stages block
+
 
     post {
         success{
