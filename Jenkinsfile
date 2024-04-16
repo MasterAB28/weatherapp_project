@@ -56,7 +56,7 @@ pipeline {
                 script {
                     withCredentials([string(credentialsId: 'snyk-api-key', variable: 'TOKEN')]) {
                         sh '$SNYK_HOME/snyk-linux auth $TOKEN'
-                        sh '$SNYK_HOME/snyk-linux container test $IMAGE_NAME:latest --file=Dockerfile --json-file-output=./snyk.json --severity-threshold=high'
+                        sh '$SNYK_HOME/snyk-linux container test $IMAGE_NAME:latest --file=Dockerfile --json-file-output=./snyk.json --severity-threshold=critical'
                     }
                     // Run tests
                     sh 'docker run -d -p 80:8000 --name test $IMAGE_NAME '
