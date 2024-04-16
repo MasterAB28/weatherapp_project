@@ -96,10 +96,10 @@ pipeline {
                 branch 'main'
             }
             steps {
-                withCredentials([string(credentialsId: 'gitlab_weather_repo_helm', variable: 'GITLAB_TOKEN')]) {
+                withCredentials([string(credentialsId: 'test', variable: 'GITLAB_TOKEN')]) {
                     script {
                         dir('/home/jenkins/workspace') {
-                            sh "git clone https://$GITLAB_TOKEN@172.31.35.116/root/weather_app_helm.git"
+                            sh "git clone http://oauth2:$GITLAB_TOKEN@172.31.35.116/root/weather_app_helm.git"
                             dir('/home/jenkins/workspace/weather_app_helm') {
                                 sh 'chmod +x ./version.sh'
                                 sh "./version.sh $BUILD_NUMBER"
