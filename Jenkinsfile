@@ -1,5 +1,7 @@
 pipeline {
-    agent {node 'agent'}
+    agent {
+        node 'agent'
+    }
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
@@ -10,18 +12,17 @@ pipeline {
         DOCKER_PASSPHRASE = credentials('DockerPassphrase')
         GITLAB_TOKEN= credentials('gitlab_weather_repo_helm')
     }
-   
+
     stages {
         stage('Static analysis') {
-            steps{
+            steps {
                 withSonarQubeEnv(installationName: 'SonarCloud') {
                     sh """${SONAR_SCANNER_HOME}/bin/sonar-scanner \
                         -Dsonar.organization=aviad \
                         -Dsonar.projectKey=aviad_weather \
                         -Dsonar.sources=./app \
                         -Dsonar.python.coverage.reportPaths=coverage.xml \
-                        -Dsonar.python.xunit.reportPaths=test_results.xml \
-                    """                
+                        -Dsonar.python.xunit.reportPaths=test_results.xml"""
                 }
             }
         }
@@ -36,7 +37,7 @@ pipeline {
                 odcInstallation: 'OWASP',
                 nvdCredentialsId: 'NVD',
                 stopBuild: true
-                
+
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml',
                 failedTotalCritical: 1,
                 stopBuild: true
@@ -46,7 +47,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    sh 'docker build . -t $IMAGE_NAME'
+                    sh "docker build . -t $IMAGE_NAME"
                 }
             }
         }
@@ -56,35 +57,36 @@ pipeline {
                 script {
                     withCredentials([string(credentialsId: 'snyk-api-key', variable: 'TOKEN')]) {
                         sh '$SNYK_HOME/snyk-linux auth $TOKEN'
-                        sh '$SNYK_HOME/snyk-linux container test $IMAGE_NAME:latest --file=Dockerfile --json-file-output=./snyk.json --severity-threshold=critical'
+                        sh "$SNYK_HOME/snyk-linux container test $IMAGE_NAME:latest --file=Dockerfile --json-file-output=./snyk.json --severity-threshold=critical"
                     }
                     // Run tests
-                    sh 'docker run -d -p 80:8000 --name test $IMAGE_NAME '
-                    sh 'python3 tests/test.py'
-                    sh 'docker rm -f test'
-                }
-            }
-        }
-        stage ('Publish') {
-            when{
-                branch 'main'
-            }
-            steps{
-                script {
-                    sh 'docker tag $IMAGE_NAME aviadbarel/$IMAGE_NAME:V1.$BUILD_NUMBER'
-                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                    sh 'docker push aviadbarel/$IMAGE_NAME:V1.$BUILD_NUMBER'
+                    sh "docker run -d -p 80:8000 --name test $IMAGE_NAME"
+                    sh "python3 tests/test.py"
+                    sh "docker rm -f test"
                 }
             }
         }
 
-        stage ('Sign image') {
-            when{
+        stage('Publish') {
+            when {
                 branch 'main'
             }
-            steps{
+            steps {
                 script {
-                    sh 'echo $DOCKER_PASSPHRASE | docker trust sign aviadbarel/$IMAGE_NAME:V1.$BUILD_NUMBER'
+                    sh "docker tag $IMAGE_NAME aviadbarel/$IMAGE_NAME:V1.$BUILD_NUMBER"
+                    sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+                    sh "docker push aviadbarel/$IMAGE_NAME:V1.$BUILD_NUMBER"
+                }
+            }
+        }
+
+        stage('Sign image') {
+            when {
+                branch 'main'
+            }
+            steps {
+                script {
+                    sh "echo $DOCKER_PASSPHRASE | docker trust sign aviadbarel/$IMAGE_NAME:V1.$BUILD_NUMBER"
                 }
             }
         }
@@ -113,18 +115,18 @@ pipeline {
                 }
             }
         }
-
+    }
 
     post {
-        success{
+        success {
             slackSend(channel: 'succeeded-build', color: 'good', message: "Tests passed! build: ${BUILD_NUMBER} commit: ${GIT_COMMIT}")
         }
-        failure{
+        failure {
             slackSend(channel: 'devops-alert', color: 'danger', message: "Tests failed! ${BUILD_NUMBER} commit: ${GIT_COMMIT}")
         }
         always {
             cleanWs()
             sh 'docker logout'
         }
-    } // Close post block
-} // Close pipeline block
+    }
+}
