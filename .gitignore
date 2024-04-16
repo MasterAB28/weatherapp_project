@@ -10,9 +10,4 @@
 !Jenkinsfile
 !app/requirements.txt
 !*.conf
-!compose.yml
-!AWS-pipeline/buildspec.yml
-!AWS-pipeline/appspec.yml
-!scripts/start-process.sh
-!scripts/before-install.sh
 !*.yaml
