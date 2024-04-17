@@ -52,13 +52,20 @@ pipeline {
             }
         }
 
-        stage('Tests') {
+        stage('Snyk Tests') {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'snyk-api-key', variable: 'TOKEN')]) {
-                        sh '$SNYK_HOME/snyk-linux auth $TOKEN'
-                        sh "$SNYK_HOME/snyk-linux container test $IMAGE_NAME:latest --file=Dockerfile --json-file-output=./snyk.json --severity-threshold=critical"
+                            sh '$SNYK_HOME/snyk-linux auth $TOKEN'
+                            sh "$SNYK_HOME/snyk-linux container test $IMAGE_NAME:latest --file=Dockerfile --json-file-output=./snyk.json --severity-threshold=critical"
                     }
+                }
+            }
+        }
+
+        stage('Tests') {
+            steps {
+                script {
                     // Run tests
                     sh "docker run -d -p 80:8000 --name test $IMAGE_NAME"
                     sh "python3 tests/test.py"
@@ -99,7 +106,7 @@ pipeline {
                 withCredentials([string(credentialsId: 'gitlab_weather_repo_helm', variable: 'GITLAB_TOKEN')]) {
                     script {
                         dir('/home/jenkins/workspace') {
-                            sh "git clone http://oauth2:$GITLAB_TOKEN@172.31.35.116/root/weather_app_helm.git"
+                            sh 'git clone http://oauth2:$GITLAB_TOKEN@172.31.35.116/root/weather_app_helm.git'
                             dir('/home/jenkins/workspace/weather_app_helm') {
                                 sh 'chmod +x ./version.sh'
                                 sh "./version.sh $BUILD_NUMBER"
@@ -110,6 +117,7 @@ pipeline {
                                 sh 'git commit -m "JenkinsAction: Update Docker image tag"'
                                 sh 'git push'
                             }
+                            sh 'rm -rf ./weather_app_helm'
                         }
                     }
                 }
