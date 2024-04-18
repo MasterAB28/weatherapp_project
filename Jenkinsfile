@@ -75,7 +75,7 @@ pipeline {
             }
         }
 
-        stage('Publish') {
+        stage('Publish test') {
             when {
                 branch 'feature'
             }
