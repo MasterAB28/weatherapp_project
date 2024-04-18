@@ -98,7 +98,7 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('Update helm chart') {
             when {
                 branch 'main'
             }
