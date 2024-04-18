@@ -9,6 +9,7 @@ pipeline {
         SNYK_HOME = tool name: 'snyk'
         SONAR_SCANNER_HOME = tool 'SonarCloud'
         IMAGE_NAME = 'weatherapp'
+        TEST_IMAGE_NAME= 'weather_app_test'
         DOCKER_PASSPHRASE = credentials('DockerPassphrase')
         GITLAB_TOKEN= credentials('gitlab_weather_repo_helm')
     }
@@ -70,6 +71,19 @@ pipeline {
                     sh "docker run -d -p 80:8000 --name test $IMAGE_NAME"
                     sh "python3 tests/test.py"
                     sh "docker rm -f test"
+                }
+            }
+        }
+
+        stage('Publish') {
+            when {
+                branch 'feature'
+            }
+            steps {
+                script {
+                    sh "docker tag $IMAGE_NAME aviadbarel/$TEST_IMAGE_NAME:V1.$BUILD_NUMBER"
+                    sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+                    sh "docker push aviadbarel/$TEST_IMAGE_NAME:V1.$BUILD_NUMBER"
                 }
             }
         }
