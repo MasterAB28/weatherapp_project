@@ -10,6 +10,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
+      - run: sudo apt-get update && sudo apt-get install -y python-pip
       - run: pip install requests
       - run:
           name: Build Docker Image
