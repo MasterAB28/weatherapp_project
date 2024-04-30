@@ -13,3 +13,4 @@
 !*.yaml
 !.dockerignore
 !.circleci
+!*.yml
