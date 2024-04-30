@@ -15,7 +15,7 @@ jobs:
       - run:
           name: Run Container
           background: true
-          command: docker run -d --name weather_app_instance weather_app
+          command: docker run -d -p 8000:8000 --name weather_app_instance weather_app
       - run:
           name: Run Tests
           command: |

@@ -68,7 +68,7 @@ pipeline {
             steps {
                 script {
                     // Run tests
-                    sh "docker run -d -p 80:8000 --name test $IMAGE_NAME"
+                    sh "docker run -d -p 8000:8000 --name test $IMAGE_NAME"
                     sh "python3 tests/test.py"
                     sh "docker rm -f test"
                 }
