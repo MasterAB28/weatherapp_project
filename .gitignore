@@ -12,3 +12,4 @@
 !*.conf
 !*.yaml
 !.dockerignore
+!.circleci
