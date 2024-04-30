@@ -11,6 +11,8 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
+      - python/install-packages:
+          pkg-manager: pip
       - run:
           name: Build Docker Image
           command: docker build -t weather_app .
@@ -21,7 +23,7 @@ jobs:
       - run:
           name: Run Tests
           command: |
-            python3 -m pytest tests --junitxml=test_results.xml
+            python -m pytest tests --junitxml=test_results.xml
       - run:
           name: Stop Container
           command: docker rm -f weather_app_instance
