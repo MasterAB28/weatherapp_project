@@ -1,9 +1,13 @@
 version: 2.1
 
+orbs:
+  python: circleci/python@2.0.3
+
 jobs:
   build_and_test:
     docker:
       - image: docker:19.03.12
+    executor: python/default
     steps:
       - checkout
       - setup_remote_docker
@@ -17,7 +21,7 @@ jobs:
       - run:
           name: Run Tests
           command: |
-            python3 -m pytest tests --junitxml=test_results.xml
+            python -m pytest tests --junitxml=test_results.xml
       - run:
           name: Stop Container
           command: docker rm -f weather_app_instance
