@@ -6,13 +6,10 @@ orbs:
 jobs:
   build_and_test:
     docker:
-      - image: docker:19.03.12
-    executor: python/default
+      - image: cimg/base:2024.02
     steps:
       - checkout
       - setup_remote_docker
-      - python/install-packages:
-          pkg-manager: pip
       - run:
           name: Build Docker Image
           command: docker build -t weather_app .
@@ -23,7 +20,7 @@ jobs:
       - run:
           name: Run Tests
           command: |
-            python -m pytest tests --junitxml=test_results.xml
+            python3 tests/test.py -v > test_results.xml
       - run:
           name: Stop Container
           command: docker rm -f weather_app_instance
