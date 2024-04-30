@@ -1,0 +1,77 @@
+version: 2.1
+
+jobs:
+  build_and_test:
+    docker:
+      - image: docker:19.03.12
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Docker Image
+          command: docker build -t weather_app .
+      - run:
+          name: Run Container
+          background: true
+          command: docker run -d --name weather_app_instance weather_app
+      - run:
+          name: Run Tests
+          command: |
+            python3 -m pytest tests --junitxml=test_results.xml
+      - run:
+          name: Stop Container
+          command: docker rm -f weather_app_instance
+      - store_test_results:
+          path: test_results.xml
+
+#  upload_image_to_registry:
+#    docker:
+#      - image: docker:19.03.12
+#    steps:
+#      - checkout
+#      - setup_remote_docker
+#      - run:
+#          name: Upload Image to GitLab Container Registry
+#          command: |
+#            docker tag weather_app $REGISTRY_URL/weather_app
+#            docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#            docker push $REGISTRY_URL/weather_app
+#
+#  deploy_to_eks:
+#    docker:
+#      - image: python:3.8
+#    steps:
+#      - checkout
+#      # Install Terraform, Teratest, Checkov, and ArgoCD CLI
+#      - run:
+#          name: Install Terraform, Teratest, Checkov, ArgoCD
+#          command: |
+#            # Script to install required tools
+#      - run:
+#          name: Check Terraform Configuration
+#          command: |
+#            # Run Checkov on Terraform files
+#      - run:
+#          name: Test Terraform Configuration
+#          command: |
+#            # Run Teratest on Terraform configurations
+#      - run:
+#          name: Create EKS Cluster
+#          command: |
+#            # Use Terraform to create EKS cluster
+#      - run:
+#          name: Deploy Application using ArgoCD
+#          command: |
+#            # Script to deploy application using ArgoCD
+#
+#workflows:
+#  version: 2
+#  build_test_and_deploy:
+#    jobs:
+#      - build_and_test
+#      - upload_image_to_registry:
+#          requires:
+#            - build_and_test
+#      - deploy_to_eks:
+#          requires:
+#            - build_and_test
