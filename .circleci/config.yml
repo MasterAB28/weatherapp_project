@@ -64,11 +64,11 @@ jobs:
 #          command: |
 #            # Script to deploy application using ArgoCD
 #
-#workflows:
-#  version: 2
-#  build_test_and_deploy:
-#    jobs:
-#      - build_and_test
+workflows:
+  version: 2
+  build_test_and_deploy:
+    jobs:
+      - build_and_test
 #      - upload_image_to_registry:
 #          requires:
 #            - build_and_test
