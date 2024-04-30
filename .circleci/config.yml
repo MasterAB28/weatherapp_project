@@ -11,7 +11,7 @@ jobs:
       - checkout
       - setup_remote_docker
       - run: sudo apt-get update && sudo apt-get install -y python-pip
-      - run: pip install requests
+      - run: python3 -m pip install requests
       - run:
           name: Build Docker Image
           command: docker build -t weather_app .
