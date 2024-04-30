@@ -21,7 +21,7 @@ jobs:
       - run:
           name: Run Tests
           command: |
-            python -m pytest tests --junitxml=test_results.xml
+            python3 -m pytest tests --junitxml=test_results.xml
       - run:
           name: Stop Container
           command: docker rm -f weather_app_instance
