@@ -14,11 +14,8 @@ jobs:
           command: docker build -t weather_app .
       - run:
           name: Run Container
-          background: true
-          command: docker run -d -p 8000:8000 --name weather_app_instance weather_app
-      - run:
-          name: Run Tests
           command: |
+            docker run -d -p 8000:8000 --name weather_app_instance weather_app
             python3 tests/test.py -v > test_results.xml
       - run:
           name: Stop Container
