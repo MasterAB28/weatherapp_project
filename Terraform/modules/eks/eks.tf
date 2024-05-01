@@ -6,8 +6,9 @@ module "vpc" {
 }
 
 module "eks" {
-  source  = "terraform-aws-modules/eks/aws"
-  version = "20.8.5"
+  # source  = "terraform-aws-modules/eks/aws"
+  # version = "20.8.5"
+  source = "git::https://github.com/terraform-aws-modules/terraform-aws-eks.git?ref=afadb14e44d1cdbd852dbae815be377c4034e82a"
 
   cluster_name                   = var.cluster_name
   cluster_endpoint_public_access = true
@@ -91,9 +92,9 @@ provider "helm" {
 # }
 
 module "aws_load_balancer_controller_irsa_role" {
-  source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-  # version = "5.3.1"
-  version = "~> 5.0"
+  # source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+  # version = "~> 5.0"
+  source = "git::https://github.com/terraform-aws-modules/terraform-aws-iam.git//modules/iam-role-for-service-accounts-eks?ref=39e42e1f847afe5fd1c1c98c64871817e37e33ca"
 
   role_name = "aws-load-balancer-controller"
 
@@ -158,7 +159,7 @@ resource "helm_release" "argocd" {
 }
 
 resource "aws_iam_policy" "external_dns_policy" {
-  depends_on = [ module.eks ]
+  depends_on = [module.eks]
   name        = "external-dns-route53-policy"
   description = "Policy for ExternalDNS to manage Route 53 resources"
   policy      = jsonencode({
@@ -167,20 +168,22 @@ resource "aws_iam_policy" "external_dns_policy" {
       {
         Effect   = "Allow"
         Action   = ["route53:ChangeResourceRecordSets"]
-        Resource = ["arn:aws:route53:::hostedzone/*"]
+        Resource = ["arn:aws:route53:::hostedzone/${var.route_53_zone_id}"]  # Replace var.route_53_zone_id with the actual hosted zone ID
       },
       {
         Effect   = "Allow"
         Action   = ["route53:ListHostedZones", "route53:ListResourceRecordSets"]
-        Resource = ["*"]
+        Resource = ["arn:aws:route53:::hostedzone/${var.route_53_zone_id}"]  # Replace var.route_53_zone_id with the actual hosted zone ID
       }
     ]
   })
 }
 
+
 module "eks-external-dns" {
-    source  = "lablabs/eks-external-dns/aws"
-    version = "1.2.0"
+    # source  = "lablabs/eks-external-dns/aws"
+    # version = "1.2.0"
+    source = "git::https://github.com/lablabs/terraform-aws-eks-external-dns.git?ref=c3381f9ce801c4663656cadf605adade954f7fa7"
     helm_chart_version = "7.2.1"
     cluster_identity_oidc_issuer =  module.eks.cluster_oidc_issuer_url
     cluster_identity_oidc_issuer_arn = module.eks.oidc_provider_arn
