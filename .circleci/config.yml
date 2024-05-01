@@ -48,8 +48,8 @@ jobs:
           command: |
             checkov -d Terraform/
 
-orbs:
-  discord: teka23/discord@0.0.1
+# orbs:
+#   discord: teka23/discord@0.0.1
 
 workflows:
   version: 2
