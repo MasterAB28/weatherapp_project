@@ -14,3 +14,7 @@
 !.dockerignore
 !.circleci
 !*.yml
+.terraform
+!*.tf
+.lock
+.tfstate
